@@ -153,21 +153,17 @@ const coAdvtPlanCtrl = {
      * 删除一个
      * @param {*} ctx 
      */
-    async delete(ctx) {
-        let params = [],
-            id = ctx.params.id
-        params.push(id)
-        console.log(params)
-        await coPlanModel.delete(params)
-            .then(r => {
-                ctx.response.body = {
-                    data: r
-                }
-            })
-            .catch(err => {
-                util.handleError(ctx, err)
-
-            })
+    async deleteOnePlan(ctx) {
+        let body = ctx.params
+        console.log(body)
+        let planId = body.planId;
+        console.log(planId)
+        await planModel.deleteByPlanId(planId)
+        await coPlanModel.deleteByPlanId(planId)
+        ctx.response.body = {
+            code: 0,
+            messaage: 'success'
+        }
 
     },
     /**

@@ -30,8 +30,8 @@ app.use(router.routes())
 router.use(`/api/v1`, useAuth)
 
 async function useAuth(ctx, next) {
-  console.log('=================================', new Date().toLocaleString(), '===================================')
-  console.log(`========================================${ctx.url}=====================================================`)
+  console.log('=================================   ', new Date().toLocaleString(), '===================================')
+  console.log(`================================        ${ctx.url}             ==================================`)
   return next()
 }
 
@@ -78,7 +78,7 @@ router.put(`/api/v1/setting/:id`, settingCtrl.update)
 // co advt plan
 router.get(`/api/v1/coplan/list/:coId`, coAdvtPlanCtrl.listByCo)
 router.post(`/api/v1/coplan/add`, coAdvtPlanCtrl.insertOne)
-
+router.delete(`/api/v1/coplan/:planId`, coAdvtPlanCtrl.deleteOnePlan)
 
 gIn.checkSchedule()
 

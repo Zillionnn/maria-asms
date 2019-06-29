@@ -175,6 +175,17 @@ const coPlanModel = {
         } catch (err) {
             return Promise.reject(err)
         }
+    },
+    
+    /**
+     * 按plan id删除方案
+     */
+    deleteByPlanId(planId){
+        try {
+            return query('DELETE FROM t_co_advt_plan where plan_id=$1', [planId])
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 }
 

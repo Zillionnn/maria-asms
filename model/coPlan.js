@@ -69,8 +69,9 @@ const coPlanModel = {
             return Promise.reject(err)
         }
     },
-    delete(params) {
+    deleteByPlanId(planId) {
         try {
+            let params = [planId]
             return query('DELETE FROM t_plan where id=$1', params)
         } catch (err) {
             return Promise.reject(err)
