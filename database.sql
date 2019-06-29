@@ -105,5 +105,5 @@ create table t_co_advt_plan(
     update_time timestamp with time zone DEFAULT now()
 );
 
-
--- TODO 方案表中转正， 更新到 area advt space 表中，方案表删除所有该方案的记录
+-- TODO
+-- 将企业某一个方案转为正式方案；
