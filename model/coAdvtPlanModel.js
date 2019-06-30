@@ -129,7 +129,8 @@ const coPlanModel = {
                 'area_name',
                 'area_location',
                 'advt_space_position',
-                'advt_space_position_des']
+                'advt_space_position_des',
+                'isrented']
             fieldList.forEach(f => {
                 params.push(body[f])
             })
@@ -137,7 +138,8 @@ const coPlanModel = {
             area_name,
             area_location,
             advt_space_position,
-            advt_space_position_des) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10);`, params)
+            advt_space_position_des,
+            isrented) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11);`, params)
         } catch (err) {
             return Promise.reject(err)
         }

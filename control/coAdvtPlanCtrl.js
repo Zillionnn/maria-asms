@@ -134,7 +134,8 @@ const coAdvtPlanCtrl = {
                     area_name: advt.area_name,
                     area_location: advt.area_location,
                     advt_space_position: advt.advt_space_position,
-                    advt_space_position_des: advt.advt_space_position_des
+                    advt_space_position_des: advt.advt_space_position_des,
+                    isrented:advt.isrented
                 }
                 await coPlanModel.insertOne(obj)
             }
