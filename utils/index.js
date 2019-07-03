@@ -3,6 +3,7 @@ const schedule = require('node-schedule')
 const util = {
     handleError(ctx, err) {
         let e = new Error(err)
+        console.error('######################' + new Date().toLocaleString() + '#######################')
         console.error('HANDLE ERROR>>', e)
         ctx.status = 400
 
