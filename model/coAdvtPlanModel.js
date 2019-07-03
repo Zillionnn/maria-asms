@@ -120,8 +120,8 @@ const coPlanModel = {
             console.log('------------coAdvtPlanModel -------insertOne-------->>>\n', body)
             let params = []
             let fieldList = [
-                'plan_name', 
-                'co_id', 
+                'plan_name',
+                'co_id',
                 'co_name',
                 'advt_space_id',
                 'plan_id',
@@ -178,14 +178,23 @@ const coPlanModel = {
             return Promise.reject(err)
         }
     },
-    
+
     /**
      * 按plan id删除方案
      */
-    deleteByPlanId(planId){
+    deleteByPlanId(planId) {
         try {
             return query('DELETE FROM t_co_advt_plan where plan_id=$1', [planId])
         } catch (err) {
+            return Promise.reject(err)
+        }
+    },
+
+    deleteById(id) {
+        try {
+            return query(`DELETE FROM t_co_advt_plan where id=$1`, [id])
+        }
+        catch (err) {
             return Promise.reject(err)
         }
     }

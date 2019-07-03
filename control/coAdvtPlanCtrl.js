@@ -167,6 +167,18 @@ const coAdvtPlanCtrl = {
         }
 
     },
+
+    async deleteOnePlanAdvtSpace(ctx) {
+        let body = ctx.params
+        console.log(body)
+        let id = body.id;
+        console.log(id)
+        await coPlanModel.deleteById(id)
+        ctx.response.body = {
+            code: 0,
+            messaage: 'success'
+        }
+    },
     /**
      * 更新一个
      * @param {*} ctx 
