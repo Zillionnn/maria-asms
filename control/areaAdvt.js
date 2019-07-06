@@ -438,13 +438,14 @@ function checkAdvtSpaceIsRented(ctx, spaceList) {
 
                     console.log('advt>>>>>>>>>>>>', advt)
                     if (advt.isrented === 1) {
+                        console.warn('===========IT IS RENTED!==========')
                         reject('有广告位已出租，请检查...')
                     }
+                    if (i === spaceList.length-1) {
+                        resolve()
+                    }
                 })
-                console.log(i, spaceList.length)
-            if (i === spaceList.length-1) {
-                resolve()
-            }
+           
         }
     })
 
