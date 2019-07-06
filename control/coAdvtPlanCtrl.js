@@ -135,7 +135,7 @@ const coAdvtPlanCtrl = {
                     area_location: advt.area_location,
                     advt_space_position: advt.advt_space_position,
                     advt_space_position_des: advt.advt_space_position_des,
-                    isrented:advt.isrented
+                    isrented: advt.isrented
                 }
                 await coPlanModel.insertOne(obj)
             }
@@ -160,7 +160,14 @@ const coAdvtPlanCtrl = {
         let planId = body.planId;
         console.log(planId)
         await planModel.deleteByPlanId(planId)
+        let planList = await coPlanModel.listByPlanId(planId)
+        // 删除方案把 已出租的 还原
+        for (let item of planList) {
+            await areaAdvtModel.stopRent({ id: item.advt_space_id })
+        }
+
         await coPlanModel.deleteByPlanId(planId)
+
         ctx.response.body = {
             code: 0,
             messaage: 'success'

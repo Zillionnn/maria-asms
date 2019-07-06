@@ -5,6 +5,7 @@ const areaModel = require('../model/rdtlAreaModel')
 const settingModel = require('../model/settingModel')
 const util = require('../utils/index')
 const nodemailer = require("nodemailer");
+const coAdvtPlanModel = require('../model/coAdvtPlanModel');
 
 function generateParams(p, b) {
     for (let i in b) {
@@ -242,64 +243,72 @@ const areaAdvt = {
      * 广告位列表更新出租信息
      */
     async updateSpace(ctx) {
-        let spaceList = ctx.request.body.data.data
-        let expTime = ctx.request.body.data.expire_time
-        console.log(spaceList)
-        for (let item of spaceList) {
-            let paramBody = {}
-            console.log(item.advt_space_id)
-            let advtList = await areaAdvtModel.findOneById(item.advt_space_id)
-            let advt = advtList[0]
-            let coList = await coModel.findOneById(item.co_id)
-            let co = coList[0]
-            // let areaList = await areaModel.findOneById([areaId])
-            // let area = areaList[0]
+        try {
+            let spaceList = ctx.request.body.data.data
+            let expTime = ctx.request.body.data.expire_time
+            console.log(spaceList)
+            // 检测广告位有否有出租了
+            await checkAdvtSpaceIsRented(ctx, spaceList)
 
-            // console.log('advt>>', advt)
-            // console.log('co>>', co)
-            paramBody = Object.assign(paramBody,advt)
-            // console.log('area>> ', area)
-            paramBody.area_name = item.area_name
-            paramBody.area_location = item.area_location
-            paramBody.section = item.section
-            paramBody.co_id = co.id
-            paramBody.co_name = co.name
-            paramBody.isRented = 1
-            paramBody.expire_time = expTime
+            console.log('##############CHECK DONE###################')
+            // 更新 广告位 出租信息
+            for (let item of spaceList) {
+                let paramBody = {}
+                console.log(item.advt_space_id)
+                let advtList = await areaAdvtModel.findOneById(item.advt_space_id)
+                let advt = advtList[0]
+                let coList = await coModel.findOneById(item.co_id)
+                let co = coList[0]
+                // let areaList = await areaModel.findOneById([areaId])
+                // let area = areaList[0]
 
-            if (advt) {
-                paramBody.advt_name = advt.name
-                // body.light_size = advt.size
-                // 小区 or 广告？
-                paramBody.lease_time = advt.lease_time
+                paramBody = Object.assign(paramBody, advt)
+                // console.log('area>> ', area)
+                paramBody.area_name = item.area_name
+                paramBody.area_location = item.area_location
+                paramBody.section = item.section
+                paramBody.co_id = co.id
+                paramBody.co_name = co.name
+                paramBody.isrented = 1
+                paramBody.expire_time = expTime
+
+                if (advt) {
+                    paramBody.advt_name = advt.name
+                    // body.light_size = advt.size
+                    // 小区 or 广告？
+                    paramBody.lease_time = advt.lease_time
+                }
+
+                // 更新 方案 为已出租
+                await coAdvtPlanModel.updateRent({
+                    id: item.id,
+                    isrented: 1
+                })
+
+                // let expireTime = body.expire_time
+                await areaAdvtModel.update(paramBody)
+                    .then(r => {
+                        // console.log(r)
+                        // if has expire time DO THE SCHEDULE 
+                        // TODO
+                        // if (expireTime) {
+                        //     util.setSchedule(expireTime, () => {
+                        //         return areaAdvt.scheduleStopRent(r)
+                        //     })
+                        // }
+                    })
+
+
+
             }
-
-            // let expireTime = body.expire_time
-            await areaAdvtModel.update(paramBody)
-                .then(r => {
-                    ctx.response.body = {
-                        code: 0,
-                        message: 'success',
-                        data: r
-                    }
-                    return paramBody
-                })
-                .then(r => {
-                    // console.log(r)
-                    // if has expire time DO THE SCHEDULE 
-                    // TODO
-                    // if (expireTime) {
-                    //     util.setSchedule(expireTime, () => {
-                    //         return areaAdvt.scheduleStopRent(r)
-                    //     })
-                    // }
-                })
-                .catch(err => {
-                    util.handleError(ctx, err) 
-                })
-
-
+            ctx.response.body = {
+                code: 0,
+                message: 'success'
+            }
+        } catch (err) {
+            util.handleError(ctx, err)
         }
+
     },
 
     /**
@@ -415,6 +424,29 @@ async function sendEmail(body, expTime) {
         // return sendEmail(body, expTime)
     }
 
+
+}
+
+function checkAdvtSpaceIsRented(ctx, spaceList) {
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < spaceList.length; i++) {
+            let item = spaceList[i]
+            areaAdvtModel.findOneById(item.advt_space_id)
+                .then(r => {
+                    let advtList = r
+                    let advt = advtList[0]
+
+                    console.log('advt>>>>>>>>>>>>', advt)
+                    if (advt.isrented === 1) {
+                        reject('有广告位已出租，请检查...')
+                    }
+                })
+                console.log(i, spaceList.length)
+            if (i === spaceList.length-1) {
+                resolve()
+            }
+        }
+    })
 
 }
 // sendEmail().catch(console.error);

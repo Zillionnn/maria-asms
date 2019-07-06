@@ -169,6 +169,26 @@ const coPlanModel = {
         }
     },
 
+    /**
+     * 更新出租情况
+     */
+    updateRent(body) {
+        try {
+            let params = []
+            let fieldList = ['id', 'isrented']
+            fieldList.forEach(f => {
+                params.push(body[f])
+            })
+            console.log(params)
+            return query(`UPDATE t_co_advt_plan
+            SET isrented=$2, update_time=now()
+            WHERE id=$1;`, params)
+        } catch (err) {
+            return Promise.reject(err)
+        }
+    },
+
+
     listByPlanId(plan_id) {
         try {
             let params = [plan_id]

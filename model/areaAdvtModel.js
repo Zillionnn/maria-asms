@@ -200,7 +200,7 @@ const areaAdvtModel = {
                 'advt_space_position',
                 'advt_space_position_des',
                 'advt_position_image',
-                'isRented',
+                'isrented',
                 'section']
             fieldList.forEach(f => {
                 params.push(body[f])
@@ -219,7 +219,7 @@ const areaAdvtModel = {
             advt_space_position_des=$11,
             update_time=now(),
             advt_position_image=$12,
-            isRented=$13,
+            isrented=$13,
             section=$14
 
             WHERE id=$1;`, params)

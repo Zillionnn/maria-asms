@@ -102,7 +102,7 @@ create table t_co_advt_plan(
     area_location text,
     advt_space_position text,
     advt_space_position_des text,
-    isrented INTEGER DEFAULT 0;
+    isrented INTEGER DEFAULT 0,
     update_time timestamp with time zone DEFAULT now()
 );
 
