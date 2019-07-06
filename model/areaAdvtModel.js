@@ -205,7 +205,7 @@ const areaAdvtModel = {
             fieldList.forEach(f => {
                 params.push(body[f])
             })
-            // console.log('UPDATE ADVT SPACE>>\n', params)
+            console.log('============================UPDATE ADVT SPACE>>\n', params)
             return query(`UPDATE t_area_advt_space
             SET   area_id=$2,
             area_name=$3,
