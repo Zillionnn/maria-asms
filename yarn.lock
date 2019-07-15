@@ -481,6 +481,11 @@ mime-types@^2.1.18, mime-types@~2.1.18:
   dependencies:
     mime-db "~1.39.0"
 
+mime@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.npm.taobao.org/mime/download/mime-2.4.4.tgz?cache=0&sync_timestamp=1560034758817&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmime%2Fdownload%2Fmime-2.4.4.tgz#bd7b91135fc6b01cde3e9bae33d659b63d8857e5"
+  integrity sha1-vXuRE1/GsBzePpuuM9ZZtj2IV+U=
+
 moment-timezone@^0.5.23:
   version "0.5.25"
   resolved "https://registry.npm.taobao.org/moment-timezone/download/moment-timezone-0.5.25.tgz#a11bfa2f74e088327f2cd4c08b3e7bdf55957810"

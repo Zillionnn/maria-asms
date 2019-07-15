@@ -1,5 +1,7 @@
 const util = require('../utils/index')
 const path = require('path');
+const send = require('koa-send');
+
 const fs = require('fs')
 const XLSX = require('xlsx')
 const areaModel = require('../model/rdtlAreaModel')
@@ -126,17 +128,16 @@ const gIn = {
                 }
             }
         }
-        let fileName =`方案-${new Date().toLocaleString()}.xlsx`
-        // let file = XLSX.writeFile(workbook, fileName);
-        let file = XLSX.writeFile(workbook, 'outttt.xlsx');
+        let fileName = `sss.xlsx`
+        let file = XLSX.writeFile(workbook, fileName);
+
+        // const path = `./out.xlsx`;
+        // ctx.attachment(path);
+        // await send(ctx, path);
 
 
-        // ctx.body = fs.readFileSync('out.xlsx');
-        // this.set('Content-type', 'mimetype');
-        // ctx.response.set("Content-Disposition", "attachment;filename=out.xlsx");
-        ctx.set('Content-type', 'application/xlsx');
-        ctx.set('Content-disposition', 'attachment;filename=' + 'outttt.xlsx');
-        ctx.body = file;
+        ctx.body = fs.readFileSync(fileName);
+        ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
         //请求返回后，删除生成的xlsx文件，不删除也行，下次请求回覆盖
 
 
