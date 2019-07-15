@@ -4,6 +4,7 @@ const koaBody = require('koa-body');
 const cors = require('koa-cors');
 const Koa = require('koa');
 const app = module.exports = new Koa();
+
 const rdtlarea = require('./control/rdtlarea')
 const co = require('./control/co')
 const advt = require('./control/advt')
@@ -37,6 +38,8 @@ async function useAuth(ctx, next) {
 
 router.post(`/api/v1/uploadImg`, gIn.upload)
 router.post(`/api/v1/uploadXls`, gIn.uploadExcel)
+router.get(`/api/v1/exportXlsx`, gIn.exportExcel)
+
 router.get('/api/v1/rdtlarea/list', rdtlarea.list)
 router.post(`/api/v1/rdtlarea`, rdtlarea.findOneByName)
 router.post(`/api/v1/rdtlarea/add`, rdtlarea.insertOne)
@@ -82,7 +85,7 @@ router.put(`/api/v1/setting/:id`, settingCtrl.update)
 router.get(`/api/v1/coplan/list/:coId`, coAdvtPlanCtrl.listByCo)
 router.post(`/api/v1/coplan/add`, coAdvtPlanCtrl.insertOne)
 router.delete(`/api/v1/coplan/:planId`, coAdvtPlanCtrl.deleteOnePlan)
-router.delete(`/api/v1/coplan/advtspace/:id`,coAdvtPlanCtrl.deleteOnePlanAdvtSpace)
+router.delete(`/api/v1/coplan/advtspace/:id`, coAdvtPlanCtrl.deleteOnePlanAdvtSpace)
 
 
 

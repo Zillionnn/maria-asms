@@ -105,6 +105,3 @@ create table t_co_advt_plan(
     isrented INTEGER DEFAULT 0,
     update_time timestamp with time zone DEFAULT now()
 );
-
--- TODO
--- 将企业某一个方案转为正式方案；

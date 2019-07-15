@@ -50,6 +50,9 @@ const gIn = {
             console.log(file.name)
 
             var workbook = XLSX.readFile(file.path);
+            console.group('%c', 'WORKBOOD');
+            console.log(workbook);
+            console.groupEnd();
             let sheetNames = workbook.SheetNames
             for (let name of sheetNames) {
                 let r = workbook.Sheets[name]
@@ -111,6 +114,34 @@ const gIn = {
         }
 
     },
+
+    async exportExcel(ctx) {
+        let workbook = {
+            SheetNames: ['mySheet'],
+            Sheets: {
+                'mySheet': {
+                    '!ref': 'A1:E4', // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
+                    A1: { v: 'id' },
+                    C3: { v: '你麻痹' }
+                }
+            }
+        }
+        let fileName =`方案-${new Date().toLocaleString()}.xlsx`
+        // let file = XLSX.writeFile(workbook, fileName);
+        let file = XLSX.writeFile(workbook, 'outttt.xlsx');
+
+
+        // ctx.body = fs.readFileSync('out.xlsx');
+        // this.set('Content-type', 'mimetype');
+        // ctx.response.set("Content-Disposition", "attachment;filename=out.xlsx");
+        ctx.set('Content-type', 'application/xlsx');
+        ctx.set('Content-disposition', 'attachment;filename=' + 'outttt.xlsx');
+        ctx.body = file;
+        //请求返回后，删除生成的xlsx文件，不删除也行，下次请求回覆盖
+
+
+
+    }
 
 }
 
