@@ -124,7 +124,18 @@ const gIn = {
             Sheets: {
                 'mySheet': {
                     '!ref': 'A1:E4', // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
-                    // '!merges': 'A1:E1',
+                    "!merges": [
+                        {
+                          "s": {
+                            "c": 0,
+                            "r": 0
+                          },
+                          "e": {
+                            "c": 4,
+                            "r": 0
+                          }
+                        }
+                      ],
 
                     // BGCOLOR 00FFC000
                     A1: {
