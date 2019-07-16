@@ -3,7 +3,8 @@ const path = require('path');
 const send = require('koa-send');
 
 const fs = require('fs')
-const XLSX = require('xlsx')
+const XLSX = require('xlsx-style')
+
 const areaModel = require('../model/rdtlAreaModel')
 const areaAdvtModel = require('../model/areaAdvtModel')
 const areaAdvtCtrl = require('./areaAdvt')
@@ -118,30 +119,98 @@ const gIn = {
     },
 
     async exportExcel(ctx) {
+        let headStyle = {
+            font: {
+                sz: 14, bold: false,
+                color: { rgb: "000000" }
+            },
+            fill: {
+                fgColor: { rgb: "FFC000" }
+            },
+            border: {
+                top: {
+                    style: "medium",
+                    color: {
+                        rgb: "00000000"
+                    }
+                },
+                left: {
+                    style: "medium",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                right: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                bottom: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                }
+            }
+        }
         let workbook = {
             SheetNames: ['mySheet'],
             Sheets: {
                 'mySheet': {
                     '!ref': 'A1:E4', // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
-                    A1: { v: 'id' },
-                    C3: { v: '你麻痹' }
+                    // BGCOLOR 00FFC000
+                    A1: {
+                        v: 'id', s: headStyle
+                    },
+                    C3: {
+                        v: '吱吱吱吱吱吱', s: {
+                            font: {
+                                sz: 14, bold: false,
+                                color: { rgb: "000000" }
+                            },
+                            fill: {
+                                fgColor: { rgb: "CCCCCC" }
+                            },
+                            border: {
+                                top: {
+                                    style: "thin",
+                                    color: {
+                                        rgb: "00000000"
+                                    }
+                                },
+                                left: {
+                                    style: "thin",
+                                    color: {
+                                        rgb: "000000"
+                                    }
+                                },
+                                right: {
+                                    style: "thin",
+                                    color: {
+                                        rgb: "000000"
+                                    }
+                                },
+                                bottom: {
+                                    style: "thin",
+                                    color: {
+                                        rgb: "000000"
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        // { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } ,border: { top: { style: 'medium', color: { rgb: "FFFFAA00"}}, left: { style: 'medium', color: { rgb: "FFFFAA00"}}}};
+
         let fileName = `sss.xlsx`
         let file = XLSX.writeFile(workbook, fileName);
 
-        // const path = `./out.xlsx`;
-        // ctx.attachment(path);
-        // await send(ctx, path);
-
-
         ctx.body = fs.readFileSync(fileName);
         ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
-        //请求返回后，删除生成的xlsx文件，不删除也行，下次请求回覆盖
-
-
-
     }
 
 }
