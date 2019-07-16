@@ -2,6 +2,8 @@ const coPlanModel = require('../model/coAdvtPlanModel.js')
 const coModel = require('../model/coModel.js')
 const planModel = require('../model/coPlan.js')
 const areaAdvtModel = require('../model/areaAdvtModel.js')
+const planSectionModel = require('../model/planSectionModel.js');
+
 const util = require('../utils/index')
 
 function generateParams(p, b) {
@@ -105,6 +107,7 @@ const coAdvtPlanCtrl = {
             console.log(body)
             let planId = null
             let isExist = await planModel.findOneByPlanName(body.plan_name, body.co_id)
+
             console.log('********', isExist)
             // 插入时查询是否存在
             if (isExist.length === 0) {
@@ -124,6 +127,13 @@ const coAdvtPlanCtrl = {
             for (let item of body.advt_space_id_list) {
                 let r = await areaAdvtModel.findOneById(item.id)
                 let advt = r[0]
+                let planSectionExist = await planSectionModel.countByPlanIdAndSection(planId, advt.section);
+                console.log('PLAN SECTION ===================\n', planSectionExist);
+                if (parseInt(planSectionExist[0].count) === 0) {
+                    await planSectionModel.insertOne(planId, advt.section);
+                }
+
+
                 let obj = {
                     plan_id: planId,
                     plan_name: body.plan_name,

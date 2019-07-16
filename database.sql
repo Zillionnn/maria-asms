@@ -105,3 +105,12 @@ create table t_co_advt_plan(
     isrented INTEGER DEFAULT 0,
     update_time timestamp with time zone DEFAULT now()
 );
+
+-- 方案 区域 关联表
+
+create table t_plan_section(
+    id uuid not null DEFAULT uuid_generate_v4(),
+    plan_id text, -- plan 表的id
+    section text,
+    update_time timestamp with time zone DEFAULT now()
+);
