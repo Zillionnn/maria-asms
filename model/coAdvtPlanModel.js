@@ -188,7 +188,10 @@ const coPlanModel = {
         }
     },
 
-
+    /**
+     * 按plan id 查
+     * @param {*} plan_id 
+     */
     listByPlanId(plan_id) {
         try {
             let params = [plan_id]
@@ -198,6 +201,7 @@ const coPlanModel = {
             return Promise.reject(err)
         }
     },
+
 
     /**
      * 按plan id删除方案
@@ -213,6 +217,18 @@ const coPlanModel = {
     deleteById(id) {
         try {
             return query(`DELETE FROM t_co_advt_plan where id=$1`, [id])
+        }
+        catch (err) {
+            return Promise.reject(err)
+        }
+    },
+
+    /**
+     * 按区域名称查
+     */
+    listBySectionNameAndPlanId(sectionName, planId) {
+        try {
+            return query(`select * FROM t_co_advt_plan where section=$1 and plan_id =$2`, [sectionName, planId])
         }
         catch (err) {
             return Promise.reject(err)

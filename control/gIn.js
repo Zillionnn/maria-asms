@@ -8,6 +8,9 @@ const XLSX = require('xlsx-style')
 const areaModel = require('../model/rdtlAreaModel')
 const areaAdvtModel = require('../model/areaAdvtModel')
 const areaAdvtCtrl = require('./areaAdvt')
+const coAdvtPlanModel = require('../model/coAdvtPlanModel')
+const planSectionModel = require('../model/planSectionModel')
+
 const gIn = {
 
     async checkSchedule() {
@@ -118,100 +121,127 @@ const gIn = {
 
     },
 
+    sectionStyle: {
+        font: {
+            sz: 14, bold: false,
+            color: { rgb: "000000" }
+        },
+        fill: {
+            fgColor: { rgb: "FFC000" }
+        },
+        border: {
+            top: {
+                style: "medium",
+                color: {
+                    rgb: "00000000"
+                }
+            },
+            left: {
+                style: "medium",
+                color: {
+                    rgb: "000000"
+                }
+            },
+            right: {
+                style: "thin",
+                color: {
+                    rgb: "000000"
+                }
+            },
+            bottom: {
+                style: "thin",
+                color: {
+                    rgb: "000000"
+                }
+            }
+        }
+    },
     async exportExcel(ctx) {
+
+        let body = ctx.params
+        console.log(body);
+        let result = []
+        let plan = await coAdvtPlanModel.listByPlanId(body.plan_id);
+        let spaceTotal = plan.length;
+        // console.log(plan);
+        let sectionList = await planSectionModel.listByPlanId(body.plan_id);
+        for (let i = 0; i < sectionList.length; i++) {
+            let item = sectionList[i];
+            let o = {
+                section: item.section,
+                sectionSpaceTotal: 0,
+                list: []
+            }
+
+            // 该区域下 方案的广告位个数
+            let sectionAdvtSpaceList = await coAdvtPlanModel.listBySectionNameAndPlanId(item.section, body.plan_id);
+            o.sectionSpaceTotal = sectionAdvtSpaceList.length;
+
+            // 广告位id 列表
+            for (let j = 0; j < sectionAdvtSpaceList.length; j++) {
+                let spaceInfo = {}
+                let item = sectionAdvtSpaceList[j]
+                let area = await areaModel.findOneByName(item.area_name);
+                spaceInfo.category = area[0].category;
+                spaceInfo.area_name = item.area_name;
+                spaceInfo.location = area[0].location;
+                spaceInfo.live_size = area[0].live_size;
+                spaceInfo.parking_num = area[0].parking_num;
+                spaceInfo.space_position_des = item.advt_space_position_des;
+                o.list.push(spaceInfo)
+            }
+            result.push(o);
+
+
+        }
+        // 导入excel 的 result
+        console.log('=========================\n', result);
+        let merges = [];
+        for (let i = 0; i < result.length; i++) {
+            if (i === 0) {
+                merges.push({
+                    "s": {
+                        "c": 0,
+                        "r": 0
+                    },
+                    "e": {
+                        "c": 10,
+                        "r": 0
+                    }
+                });
+            } else {
+                merges.push({
+                    "s": {
+                        "c": 0,
+                        "r": getMergeStart(i, result)
+                    },
+                    "e": {
+                        "c": 10,
+                        "r": getMergeStart(i, result)
+                    }
+                });
+            }
+
+
+
+
+        }
+        console.log('merges=========\n', merges);
         let workbook = {
             SheetNames: ['mySheet'],
             Sheets: {
                 'mySheet': {
                     '!ref': 'A1:E4', // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
-                    "!merges": [
-                        {
-                          "s": {
-                            "c": 0,
-                            "r": 0
-                          },
-                          "e": {
-                            "c": 4,
-                            "r": 0
-                          }
-                        }
-                      ],
+                    "!merges": merges,
 
                     // BGCOLOR 00FFC000
                     A1: {
-                        v: 'id', s: {
-                            font: {
-                                sz: 14, bold: false,
-                                color: { rgb: "000000" }
-                            },
-                            fill: {
-                                fgColor: { rgb: "FFC000" }
-                            },
-                            border: {
-                                top: {
-                                    style: "medium",
-                                    color: {
-                                        rgb: "00000000"
-                                    }
-                                },
-                                left: {
-                                    style: "medium",
-                                    color: {
-                                        rgb: "000000"
-                                    }
-                                },
-                                right: {
-                                    style: "thin",
-                                    color: {
-                                        rgb: "000000"
-                                    }
-                                },
-                                bottom: {
-                                    style: "thin",
-                                    color: {
-                                        rgb: "000000"
-                                    }
-                                }
-                            }
-                        }
+                        v: 'id', s: this.sectionStyle
                     },
-                    C3: {
-                        v: '吱吱吱吱吱吱', s: {
-                            font: {
-                                sz: 14, bold: false,
-                                color: { rgb: "000000" }
-                            },
-                            fill: {
-                                fgColor: { rgb: "CCCCCC" }
-                            },
-                            border: {
-                                top: {
-                                    style: "thin",
-                                    color: {
-                                        rgb: "00000000"
-                                    }
-                                },
-                                left: {
-                                    style: "thin",
-                                    color: {
-                                        rgb: "000000"
-                                    }
-                                },
-                                right: {
-                                    style: "thin",
-                                    color: {
-                                        rgb: "000000"
-                                    }
-                                },
-                                bottom: {
-                                    style: "thin",
-                                    color: {
-                                        rgb: "000000"
-                                    }
-                                }
-                            }
-                        }
+                    B1: {
+                        v: 'nd'
                     }
+
                 }
             }
         }
@@ -225,6 +255,17 @@ const gIn = {
         ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
     }
 
+}
+
+function getMergeStart(i, list) {
+    if (i === 0) {
+        return list[0].sectionSpaceTotal + 2;
+    } else if (i === 1) {
+        return list[0].sectionSpaceTotal + 2;
+    } else {
+        let b = getMergeStart(i - 2, list)
+        return b + list[i - 1].sectionSpaceTotal+2;
+    }
 }
 
 module.exports = gIn

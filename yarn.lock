@@ -897,7 +897,7 @@ voc@:
 
 xlsx-style@^0.8.13:
   version "0.8.13"
-  resolved "https://registry.npmjs.org/xlsx-style/-/xlsx-style-0.8.13.tgz#ed238d6b8c0562f9447c2906abbded2d339e0486"
+  resolved "https://registry.npm.taobao.org/xlsx-style/download/xlsx-style-0.8.13.tgz#ed238d6b8c0562f9447c2906abbded2d339e0486"
   integrity sha1-7SONa4wFYvlEfCkGq73tLTOeBIY=
   dependencies:
     adler-32 ""
