@@ -119,49 +119,50 @@ const gIn = {
     },
 
     async exportExcel(ctx) {
-        let headStyle = {
-            font: {
-                sz: 14, bold: false,
-                color: { rgb: "000000" }
-            },
-            fill: {
-                fgColor: { rgb: "FFC000" }
-            },
-            border: {
-                top: {
-                    style: "medium",
-                    color: {
-                        rgb: "00000000"
-                    }
-                },
-                left: {
-                    style: "medium",
-                    color: {
-                        rgb: "000000"
-                    }
-                },
-                right: {
-                    style: "thin",
-                    color: {
-                        rgb: "000000"
-                    }
-                },
-                bottom: {
-                    style: "thin",
-                    color: {
-                        rgb: "000000"
-                    }
-                }
-            }
-        }
         let workbook = {
             SheetNames: ['mySheet'],
             Sheets: {
                 'mySheet': {
                     '!ref': 'A1:E4', // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
+                    // '!merges': 'A1:E1',
+
                     // BGCOLOR 00FFC000
                     A1: {
-                        v: 'id', s: headStyle
+                        v: 'id', s: {
+                            font: {
+                                sz: 14, bold: false,
+                                color: { rgb: "000000" }
+                            },
+                            fill: {
+                                fgColor: { rgb: "FFC000" }
+                            },
+                            border: {
+                                top: {
+                                    style: "medium",
+                                    color: {
+                                        rgb: "00000000"
+                                    }
+                                },
+                                left: {
+                                    style: "medium",
+                                    color: {
+                                        rgb: "000000"
+                                    }
+                                },
+                                right: {
+                                    style: "thin",
+                                    color: {
+                                        rgb: "000000"
+                                    }
+                                },
+                                bottom: {
+                                    style: "thin",
+                                    color: {
+                                        rgb: "000000"
+                                    }
+                                }
+                            }
+                        }
                     },
                     C3: {
                         v: '吱吱吱吱吱吱', s: {
