@@ -430,16 +430,16 @@ const gIn = {
 
         }
 
-        merges.push({
-            s: {
-                c: 2,
-                r: 2
-            },
-            e: {
-                c: 2,
-                r: 3
-            }
-        })
+        // merges.push({
+        //     s: {
+        //         c: 2,
+        //         r: 2
+        //     },
+        //     e: {
+        //         c: 2,
+        //         r: 3
+        //     }
+        // })
 
         // { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } ,border: { top: { style: 'medium', color: { rgb: "FFFFAA00"}}, left: { style: 'medium', color: { rgb: "FFFFAA00"}}}};
         let fileName = `sss.xlsx`
