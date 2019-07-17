@@ -27,6 +27,15 @@ const util = {
         console.log('do schedule', date)
         let j = schedule.scheduleJob(date, fn)
         // j.cancel();
+    },
+
+    formatCategory(n){
+        switch(n){  
+            case 0:
+                return '住宅'
+            case 1:
+                return '商业中心'
+        }
     }
 }
 

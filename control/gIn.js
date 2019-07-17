@@ -195,6 +195,35 @@ const gIn = {
             }
         }
 
+        let contentStyle = {
+            border: {
+                top: {
+                    style: "thin",
+                    color: {
+                        rgb: "00000000"
+                    }
+                },
+                left: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                right: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                bottom: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                }
+            }
+        }
+
         let body = ctx.params
         console.log(body);
         let result = []
@@ -222,8 +251,8 @@ const gIn = {
                 spaceInfo.category = area[0].category;
                 spaceInfo.area_name = item.area_name;
                 spaceInfo.location = area[0].location;
-                spaceInfo.live_size = area[0].live_size;
-                spaceInfo.parking_num = area[0].parking_num;
+                spaceInfo.live_size = parseInt(area[0].live_size);
+                spaceInfo.parking_num = parseInt(area[0].parking_num);
                 spaceInfo.space_position_des = item.advt_space_position_des;
                 o.list.push(spaceInfo)
             }
@@ -281,7 +310,8 @@ const gIn = {
                 }
             }
         }
-        let tableHead = ['序号', '名称', '分类', '地点', '户数', '车位数', '日均流量', '灯箱位置', '编号', '规格', '数量']
+        let tableHead = ['序号', '名称', '分类', '地点', '户数', '车位数', '灯箱位置', '编号', '规格', '数量']
+
         for (let i = 0; i < merges.length; i++) {
             let item = merges[i];
             let rowA = item.s.r + 1;
@@ -298,7 +328,95 @@ const gIn = {
                 }
             }
 
+            for (let k = 0; k < result[i].list.length; k++) {
+                for (let keyCode = 65; keyCode < 76; keyCode++) {
+                    let item = result[i].list[k];
+                    let letter = String.fromCharCode(keyCode)
+                    switch (letter) {
+                        case 'A':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: 0,
+                                s: contentStyle
+                            }
+                            break;
+                        case 'B':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: item.area_name,
+                                s: contentStyle
+                            }
+                            break;
+                        case 'C':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: util.formatCategory(item.category),
+                                s: contentStyle
+                            };
+                            break;
+                        case 'D':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: item.location,
+                                s: contentStyle
+                            };
+                            break;
+                        case 'E':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: isNaN(item.live_size) ? '-' : parseInt(item.live_size),
+                                s: contentStyle
+                            };
+                            break;
+
+                        case 'F':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: isNaN(tem.parking_num) ? '-' : parseInt(item.parking_num),
+                                s: contentStyle
+                            };
+                            break;
+                        case 'G':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: item.daily,
+                                s: contentStyle
+                            };
+                            break;
+                        case 'H':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: item.space_position_des,
+                                s: contentStyle
+                            };
+                            break;
+                        case 'I':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: item.advt_space_position,
+                                s: contentStyle
+                            };
+                            break;
+                        case 'J':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: item.light_size,
+                                s: contentStyle
+                            };
+                            break;
+                        case 'K':
+                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                v: result[i].list.length,
+                                s: contentStyle
+                            };
+                            break;
+                        default:
+                            break;
+                    }
+
+
+
+
+
+
+                }
+            }
+
+
+
         }
+
+
 
         // { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } ,border: { top: { style: 'medium', color: { rgb: "FFFFAA00"}}, left: { style: 'medium', color: { rgb: "FFFFAA00"}}}};
 
