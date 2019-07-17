@@ -196,6 +196,15 @@ const gIn = {
         }
 
         let contentStyle = {
+            font: {
+                sz: 10, bold: false,
+                color: { rgb: "000000" }
+            },
+            alignment: {
+                vertical: 'center',
+                horizontal: 'center',
+                wrapText: true
+            },
             border: {
                 top: {
                     style: "thin",
@@ -350,13 +359,14 @@ const gIn = {
                             break;
                         case 'C':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: util.formatCategory(item.category),
+                                v: item.location,
                                 s: contentStyle
                             };
                             break;
                         case 'D':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.location,
+                                v: util.formatCategory(item.category),
+
                                 s: contentStyle
                             };
                             break;
@@ -420,10 +430,18 @@ const gIn = {
 
         }
 
-
+        merges.push({
+            s: {
+                c: 2,
+                r: 2
+            },
+            e: {
+                c: 2,
+                r: 3
+            }
+        })
 
         // { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } ,border: { top: { style: 'medium', color: { rgb: "FFFFAA00"}}, left: { style: 'medium', color: { rgb: "FFFFAA00"}}}};
-
         let fileName = `sss.xlsx`
         let file = XLSX.writeFile(workbook, fileName);
 
