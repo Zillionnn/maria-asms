@@ -311,7 +311,7 @@ const gIn = {
             }
         }
         let tableHead = ['序号', '名称', '分类', '地点', '户数', '车位数', '灯箱位置', '编号', '规格', '数量']
-
+        let indexx = 0;
         for (let i = 0; i < merges.length; i++) {
             let item = merges[i];
             let rowA = item.s.r + 1;
@@ -329,14 +329,17 @@ const gIn = {
             }
 
             for (let k = 0; k < result[i].list.length; k++) {
+                indexx++;
                 for (let keyCode = 65; keyCode < 76; keyCode++) {
                     let item = result[i].list[k];
                     let letter = String.fromCharCode(keyCode)
+
                     switch (letter) {
                         case 'A':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: 0,
-                                s: contentStyle
+                                v: indexx,
+                                s: contentStyle,
+                                t: 'n'
                             }
                             break;
                         case 'B':
@@ -360,14 +363,16 @@ const gIn = {
                         case 'E':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
                                 v: isNaN(item.live_size) ? '-' : parseInt(item.live_size),
-                                s: contentStyle
+                                s: contentStyle,
+                                t: 'n'
                             };
                             break;
 
                         case 'F':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: isNaN(tem.parking_num) ? '-' : parseInt(item.parking_num),
-                                s: contentStyle
+                                v: isNaN(item.parking_num) ? '-' : parseInt(item.parking_num),
+                                s: contentStyle,
+                                t: 'n'
                             };
                             break;
                         case 'G':
@@ -397,14 +402,13 @@ const gIn = {
                         case 'K':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
                                 v: result[i].list.length,
-                                s: contentStyle
+                                s: contentStyle,
+                                t: 'n'
                             };
                             break;
                         default:
                             break;
-                    }
-
-
+                    };
 
 
 
