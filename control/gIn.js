@@ -121,49 +121,86 @@ const gIn = {
 
     },
 
-    sectionStyle: {
-        font: {
-            sz: 14, bold: false,
-            color: { rgb: "000000" }
-        },
-        fill: {
-            fgColor: { rgb: "FFC000" }
-        },
-        border: {
-            top: {
-                style: "medium",
-                color: {
-                    rgb: "00000000"
-                }
+
+    async exportExcel(ctx) {
+        let sectionStyle = {
+            font: {
+                sz: 10, bold: false,
+                color: { rgb: "000000" }
             },
-            left: {
-                style: "medium",
-                color: {
-                    rgb: "000000"
-                }
+            fill: {
+                fgColor: { rgb: "FFC000" }
             },
-            right: {
-                style: "thin",
-                color: {
-                    rgb: "000000"
-                }
-            },
-            bottom: {
-                style: "thin",
-                color: {
-                    rgb: "000000"
+            border: {
+                top: {
+                    style: "thin",
+                    color: {
+                        rgb: "00000000"
+                    }
+                },
+                left: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                right: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                bottom: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
                 }
             }
         }
-    },
-    async exportExcel(ctx) {
+
+        let tableHeadStyle = {
+            font: {
+                sz: 10, bold: false,
+                color: { rgb: "000000" }
+            },
+            fill: {
+                fgColor: { rgb: "FFF1CE" }
+            },
+            border: {
+                top: {
+                    style: "thin",
+                    color: {
+                        rgb: "00000000"
+                    }
+                },
+                left: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                right: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                },
+                bottom: {
+                    style: "thin",
+                    color: {
+                        rgb: "000000"
+                    }
+                }
+            }
+        }
 
         let body = ctx.params
         console.log(body);
         let result = []
         let plan = await coAdvtPlanModel.listByPlanId(body.plan_id);
-        let spaceTotal = plan.length;
-        // console.log(plan);
+        console.log(plan);
+
         let sectionList = await planSectionModel.listByPlanId(body.plan_id);
         for (let i = 0; i < sectionList.length; i++) {
             let item = sectionList[i];
@@ -227,23 +264,40 @@ const gIn = {
 
         }
         console.log('merges=========\n', merges);
+
         let workbook = {
             SheetNames: ['mySheet'],
             Sheets: {
                 'mySheet': {
-                    '!ref': 'A1:E4', // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
+                    '!ref': `A1:K${plan.length + result.length * 2}`, // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
                     "!merges": merges,
 
                     // BGCOLOR 00FFC000
-                    A1: {
-                        v: 'id', s: this.sectionStyle
-                    },
-                    B1: {
-                        v: 'nd'
-                    }
+                    // A1: {
+                    //     v: 'id', s: this.sectionStyle
+                    // },
+
 
                 }
             }
+        }
+        let tableHead = ['序号', '名称', '分类', '地点', '户数', '车位数', '日均流量', '灯箱位置', '编号', '规格', '数量']
+        for (let i = 0; i < merges.length; i++) {
+            let item = merges[i];
+            let rowA = item.s.r + 1;
+            workbook.Sheets.mySheet[`A${rowA}`] = {
+                v: result[i].section,
+                s: sectionStyle
+            }
+            for (let j = 0, keyCode = 65; j < tableHead.length; j++ , keyCode++) {
+                let head = tableHead[j];
+                let letter = String.fromCharCode(keyCode)
+                workbook.Sheets.mySheet[`${letter}${rowA + 1}`] = {
+                    v: head,
+                    s: tableHeadStyle
+                }
+            }
+
         }
 
         // { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } ,border: { top: { style: 'medium', color: { rgb: "FFFFAA00"}}, left: { style: 'medium', color: { rgb: "FFFFAA00"}}}};
@@ -264,7 +318,7 @@ function getMergeStart(i, list) {
         return list[0].sectionSpaceTotal + 2;
     } else {
         let b = getMergeStart(i - 2, list)
-        return b + list[i - 1].sectionSpaceTotal+2;
+        return b + list[i - 1].sectionSpaceTotal + 2;
     }
 }
 
