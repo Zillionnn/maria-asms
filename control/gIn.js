@@ -334,135 +334,179 @@ const gIn = {
         for (let i = 0; i < merges.length; i++) {
             let item = merges[i];
             let rowA = item.s.r + 1;
-            workbook.Sheets.mySheet[`A${rowA}`] = {
-                v: result[i].section,
-                s: sectionStyle
-            }
-            for (let j = 0, keyCode = 65; j < tableHead.length; j++ , keyCode++) {
-                let head = tableHead[j];
-                let letter = String.fromCharCode(keyCode)
-                workbook.Sheets.mySheet[`${letter}${rowA + 1}`] = {
-                    v: head,
-                    s: tableHeadStyle
+            if (result[i]) {
+                workbook.Sheets.mySheet[`A${rowA}`] = {
+                    v: result[i].section,
+                    s: sectionStyle
                 }
-            }
 
-            for (let k = 0; k < result[i].list.length; k++) {
-                indexx++;
-                for (let keyCode = 65; keyCode < 76; keyCode++) {
-                    let item = result[i].list[k];
+
+                for (let j = 0, keyCode = 65; j < tableHead.length; j++ , keyCode++) {
+                    let head = tableHead[j];
                     let letter = String.fromCharCode(keyCode)
+                    workbook.Sheets.mySheet[`${letter}${rowA + 1}`] = {
+                        v: head,
+                        s: tableHeadStyle
+                    }
+                }
+                let tempIndex = 0;
+                let tempDif = 0;
+                for (let k = 0; k < result[i].list.length; k++) {
+                    indexx++;
+                    let item = result[i].list[k];
+                    for (let keyCode = 65; keyCode < 76; keyCode++) {
 
-                    switch (letter) {
-                        case 'A':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: indexx,
-                                s: contentStyle,
-                                t: 'n'
-                            }
-                            break;
-                        case 'B':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.area_name,
-                                s: contentStyle
-                            }
-                            break;
-                        case 'C':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: util.formatCategory(item.category),
-                                s: contentStyle
-                            };
-                            break;
-                        case 'D':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.location,
-                                s: contentStyle
-                            };
-                            break;
-                        case 'E':
-                            if (isNaN(item.live_size) || item.live_size === undefined || item.live_size === null) {
+                        let letter = String.fromCharCode(keyCode)
+
+                        switch (letter) {
+                            case 'A':
                                 workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                    v: '-',
+                                    v: indexx,
+                                    s: contentStyle,
+                                    t: 'n'
+                                }
+                                break;
+                            case 'B':
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: item.area_name,
+                                    s: contentStyle
+                                }
+                                break;
+                            case 'C':
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: util.formatCategory(item.category),
                                     s: contentStyle
                                 };
                                 break;
-                            } else {
+                            case 'D':
                                 workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                    v: parseInt(item.live_size),
+                                    v: item.location,
+                                    s: contentStyle
+                                };
+                                break;
+                            case 'E':
+                                if (isNaN(item.live_size) || item.live_size === undefined || item.live_size === null) {
+                                    workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                        v: '-',
+                                        s: contentStyle
+                                    };
+                                    break;
+                                } else {
+                                    workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                        v: parseInt(item.live_size),
+                                        s: contentStyle,
+                                        t: 'n'
+                                    };
+                                    break;
+                                }
+
+
+                            case 'F':
+                                if (isNaN(item.parking_num) || item.parking_num === undefined || item.parking_num === null) {
+                                    workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                        v: '-',
+                                        s: contentStyle
+                                    };
+                                    break;
+                                } else {
+                                    workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                        v: parseInt(item.parking_num),
+                                        s: contentStyle,
+                                        t: 'n'
+                                    };
+                                    break;
+                                }
+
+                            case 'G':
+                                if (isNaN(item.avg_daily_traffic) || item.avg_daily_traffic === undefined || item.avg_daily_traffic === null) {
+                                    workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                        v: '-',
+                                        s: contentStyle
+                                    };
+                                    break;
+                                } else {
+                                    workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                        v: item.avg_daily_traffic,
+                                        s: contentStyle,
+                                        t: 'n'
+                                    };
+                                    break;
+                                }
+
+                            case 'H':
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: item.space_position_des,
+                                    s: contentStyle
+                                };
+                                break;
+                            case 'I':
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: item.advt_space_position,
+                                    s: contentStyle
+                                };
+                                break;
+                            case 'J':
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: item.light_size,
+                                    s: contentStyle
+                                };
+                                break;
+                            case 'K':
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    // TODO
+                                    v: result[i].list.length,
                                     s: contentStyle,
                                     t: 'n'
                                 };
                                 break;
+                            default:
+                                break;
+                        };
+                    }
+
+                    console.log('--------tempindextempdif', tempIndex, tempDif)
+                    if (k === result[i].list.length - 1 && tempDif === 0) {
+                        merges.push({
+                            s: {
+                                c: 1,
+                                r: rowA + tempIndex + 1
+                            },
+                            e: {
+                                c: 1,
+                                r: rowA + result[i].list.length
                             }
-
-
-                        case 'F':
-                            if (isNaN( item.parking_num) ||  item.parking_num === undefined ||  item.parking_num === null) {
-                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                    v: '-',
-                                    s: contentStyle
-                                };
-                                break;
-                            } else {
-                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                    v: parseInt(item.parking_num),
-                                    s: contentStyle,
-                                    t: 'n'
-                                };
-                                break;
+                        })
+                    } else if (k === result[i].list.length - 1 && tempDif !== 0) {
+                        merges.push({
+                            s: {
+                                c: 1,
+                                r: rowA + tempIndex + 1
+                            },
+                            e: {
+                                c: 1,
+                                r: rowA + result[i].list.length
                             }
-
-                        case 'G':
-                            if (isNaN(item.avg_daily_traffic) || item.avg_daily_traffic === undefined || item.avg_daily_traffic === null) {
-                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                    v: '-',
-                                    s: contentStyle
-                                };
-                                break;
-                            } else {
-                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                    v: item.avg_daily_traffic,
-                                    s: contentStyle,
-                                    t: 'n'
-                                };
-                                break;
+                        })
+                    } else if (k > 0 && (item.area_name !== result[i].list[k - 1].area_name)) {
+                        tempDif = k;
+                        merges.push({
+                            s: {
+                                c: 1,
+                                r: rowA + tempIndex + 1
+                            },
+                            e: {
+                                c: 1,
+                                r: rowA + tempDif
                             }
-
-                        case 'H':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.space_position_des,
-                                s: contentStyle
-                            };
-                            break;
-                        case 'I':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.advt_space_position,
-                                s: contentStyle
-                            };
-                            break;
-                        case 'J':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.light_size,
-                                s: contentStyle
-                            };
-                            break;
-                        case 'K':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                // TODO
-                                v: result[i].list.length,
-                                s: contentStyle,
-                                t: 'n'
-                            };
-                            break;
-                        default:
-                            break;
-                    };
-
-
+                        })
+                        tempIndex = tempDif
+                    }
 
 
                 }
+
             }
+
 
 
 
