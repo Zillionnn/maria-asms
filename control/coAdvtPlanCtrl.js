@@ -128,7 +128,7 @@ const coAdvtPlanCtrl = {
                 let r = await areaAdvtModel.findOneById(item.id)
                 let advt = r[0]
                 let planSectionExist = await planSectionModel.countByPlanIdAndSection(planId, advt.section);
-                console.log('PLAN SECTION ===================\n', planSectionExist);
+                console.log('PLAN SECTION ===================\n', planSectionExist, planId, advt.section);
                 if (parseInt(planSectionExist[0].count) === 0) {
                     await planSectionModel.insertOne(planId, advt.section);
                 }
