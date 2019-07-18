@@ -228,7 +228,7 @@ const coPlanModel = {
      */
     listBySectionNameAndPlanId(sectionName, planId) {
         try {
-            return query(`select * FROM t_co_advt_plan where section=$1 and plan_id =$2`, [sectionName, planId])
+            return query(`select * FROM t_co_advt_plan where section=$1 and plan_id =$2 order by area_name ASC;`, [sectionName, planId])
         }
         catch (err) {
             return Promise.reject(err)

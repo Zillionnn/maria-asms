@@ -323,13 +323,11 @@ const gIn = {
             Sheets: {
                 'mySheet': {
                     '!ref': `A1:K${plan.length + result.length * 2}`, // 必须要有这个范围才能输出，否则导出的 excel 会是一个空表
-                    "!merges": merges,
-
+                    "!merges": merges,             
                     // BGCOLOR 00FFC000
                     // A1: {
                     //     v: 'id', s: this.sectionStyle
                     // },
-
 
                 }
             }
@@ -493,7 +491,7 @@ const gIn = {
                                 r: rowA + result[i].list.length
                             }
                         })
-                        workbook.Sheets.mySheet[`K${rowA + result[i].list.length}`] = {
+                        workbook.Sheets.mySheet[`K${rowA + result[i].list.length + 1}`] = {
                             v: result[i].list.length,
                             s: contentStyle,
                             t: 'n'
@@ -521,7 +519,8 @@ const gIn = {
                                 r: rowA + result[i].list.length
                             }
                         })
-                        workbook.Sheets.mySheet[`K${rowA + result[i].list.length}`] = {
+
+                        workbook.Sheets.mySheet[`K${rowA + tempIndex + 2}`] = {
                             v: result[i].list.length - tempIndex,
                             s: contentStyle,
                             t: 'n'
@@ -583,6 +582,9 @@ const gIn = {
         // })
 
         // { font: { sz: 14, bold: true, color: { rgb: "FFFFAA00" } }, fill: { bgColor: { indexed: 64 }, fgColor: { rgb: "FFFF00" } } ,border: { top: { style: 'medium', color: { rgb: "FFFFAA00"}}, left: { style: 'medium', color: { rgb: "FFFFAA00"}}}};
+        workbook.Sheets.mySheet["!rows"] = [{
+            hpt:'16'
+        }]
         let fileName = `sss.xlsx`
         let file = XLSX.writeFile(workbook, fileName);
 
