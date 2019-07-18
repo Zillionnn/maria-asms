@@ -466,39 +466,76 @@ const gIn = {
 
                     console.log('--------tempindextempdif', tempIndex, tempDif)
                     if (k === result[i].list.length - 1 && tempDif === 0) {
+                        for (let m = 0; m <= 6; m++) {
+                            merges.push({
+                                s: {
+                                    c: m,
+                                    r: rowA + tempIndex + 1
+                                },
+                                e: {
+                                    c: m,
+                                    r: rowA + result[i].list.length
+                                }
+                            })
+                        }
                         merges.push({
                             s: {
-                                c: 1,
+                                c: 10,
                                 r: rowA + tempIndex + 1
                             },
                             e: {
-                                c: 1,
+                                c: 10,
                                 r: rowA + result[i].list.length
                             }
                         })
                     } else if (k === result[i].list.length - 1 && tempDif !== 0) {
+                        for (let m = 1; m <= 6; m++) {
+                            merges.push({
+                                s: {
+                                    c: m,
+                                    r: rowA + tempIndex + 1
+                                },
+                                e: {
+                                    c: m,
+                                    r: rowA + result[i].list.length
+                                }
+                            })
+                        }
                         merges.push({
                             s: {
-                                c: 1,
+                                c: 10,
                                 r: rowA + tempIndex + 1
                             },
                             e: {
-                                c: 1,
+                                c: 10,
                                 r: rowA + result[i].list.length
                             }
                         })
                     } else if (k > 0 && (item.area_name !== result[i].list[k - 1].area_name)) {
                         tempDif = k;
+                        for (let i = 1; i <= 6; i++) {
+                            merges.push({
+                                s: {
+                                    c: i,
+                                    r: rowA + tempIndex + 1
+                                },
+                                e: {
+                                    c: i,
+                                    r: rowA + tempDif
+                                }
+                            })
+                        }
                         merges.push({
                             s: {
-                                c: 1,
+                                c: 10,
                                 r: rowA + tempIndex + 1
                             },
                             e: {
-                                c: 1,
+                                c: 10,
                                 r: rowA + tempDif
                             }
                         })
+
                         tempIndex = tempDif
                     }
 
