@@ -141,8 +141,11 @@ const coAdvtPlanCtrl = {
                     co_name: body.co_name,
                     advt_space_id: item.id,
                     section: advt.section,
+
+                    area_id: advt.area_id,
                     area_name: advt.area_name,
                     area_location: advt.area_location,
+
                     advt_space_position: advt.advt_space_position,
                     advt_space_position_des: advt.advt_space_position_des,
                     isrented: advt.isrented

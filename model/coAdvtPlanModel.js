@@ -126,6 +126,7 @@ const coPlanModel = {
                 'advt_space_id',
                 'plan_id',
                 'section',
+                'area_id',
                 'area_name',
                 'area_location',
                 'advt_space_position',
@@ -135,11 +136,12 @@ const coPlanModel = {
                 params.push(body[f])
             })
             return query(`INSERT INTO t_co_advt_plan(plan_name, co_id, co_name, advt_space_id, plan_id, section,
+                area_id,
             area_name,
             area_location,
             advt_space_position,
             advt_space_position_des,
-            isrented) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11);`, params)
+            isrented) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12);`, params)
         } catch (err) {
             return Promise.reject(err)
         }
@@ -228,7 +230,7 @@ const coPlanModel = {
      */
     listBySectionNameAndPlanId(sectionName, planId) {
         try {
-            return query(`select * FROM t_co_advt_plan where section=$1 and plan_id =$2 order by area_name ASC;`, [sectionName, planId])
+            return query(`select * FROM t_co_advt_plan where section=$1 and plan_id =$2 order by area_name ASC, area_location ASC;`, [sectionName, planId])
         }
         catch (err) {
             return Promise.reject(err)
