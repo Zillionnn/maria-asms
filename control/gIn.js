@@ -464,9 +464,8 @@ const gIn = {
                         };
                     }
 
-                    console.log('--------tempindextempdif', tempIndex, tempDif)
                     if (k === result[i].list.length - 1 && tempDif === 0) {
-                        for (let m = 0; m <= 6; m++) {
+                        for (let m = 1; m <= 6; m++) {
                             merges.push({
                                 s: {
                                     c: m,
@@ -488,6 +487,11 @@ const gIn = {
                                 r: rowA + result[i].list.length
                             }
                         })
+                        workbook.Sheets.mySheet[`K${rowA + result[i].list.length}`] = {
+                            v: result[i].list.length,
+                            s: contentStyle,
+                            t: 'n'
+                        }
                     } else if (k === result[i].list.length - 1 && tempDif !== 0) {
                         for (let m = 1; m <= 6; m++) {
                             merges.push({
@@ -511,8 +515,15 @@ const gIn = {
                                 r: rowA + result[i].list.length
                             }
                         })
+                        workbook.Sheets.mySheet[`K${rowA + result[i].list.length}`] = {
+                            v: result[i].list.length - tempIndex,
+                            s: contentStyle,
+                            t: 'n'
+                        }
                     } else if (k > 0 && (item.area_name !== result[i].list[k - 1].area_name)) {
                         tempDif = k;
+                        console.log('--------tempindextempdif', tempIndex, tempDif, rowA)
+
                         for (let i = 1; i <= 6; i++) {
                             merges.push({
                                 s: {
@@ -536,9 +547,14 @@ const gIn = {
                             }
                         })
 
+                        workbook.Sheets.mySheet[`K${rowA + 2 + tempIndex}`] = {
+                            v: tempDif - tempIndex,
+                            s: contentStyle,
+                            t: 'n'
+                        }
+
                         tempIndex = tempDif
                     }
-
 
                 }
 
