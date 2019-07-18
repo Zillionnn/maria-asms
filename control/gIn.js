@@ -74,12 +74,17 @@ const gIn = {
                         let area = areaR[0]
                         // console.log(area)
                         // console.log('light_size', r)
-                        let lightSize = r[`J${row}`].v
+                        let lightSize = r[`K${row}`].v
                         let xIdx = lightSize.indexOf('×')
                         let lightWidth = lightSize.substring(0, xIdx - 1)
                         let lightHeight = lightSize.substring(xIdx + 1, lightSize.length - 1)
-                        let areaSpacePos = r[`I${row}`].v
-                        let areaSpacePosDes = r[`H${row}`].v
+                        let areaSpacePos = r[`J${row}`].v
+                        let areaSpacePosDes = r[`I${row}`].v
+                        let is_realestate = false
+                        if (r[`M${row}`].v === '是') {
+                            is_realestate = true
+                        }
+
 
                         let body = {
                             area_id: area.id,
@@ -91,6 +96,7 @@ const gIn = {
                             advt_space_position: areaSpacePos,
                             advt_space_position_des: areaSpacePosDes,
                             isRented: 0,
+                            is_realestate: is_realestate,
                             // TODO 
                             advt_position_image: ''
 
