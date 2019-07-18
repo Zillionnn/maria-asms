@@ -237,7 +237,7 @@ const gIn = {
         console.log(body);
         let result = []
         let plan = await coAdvtPlanModel.listByPlanId(body.plan_id);
-        console.log(plan);
+        // console.log(plan);
 
         let sectionList = await planSectionModel.listByPlanId(body.plan_id);
         for (let i = 0; i < sectionList.length; i++) {
@@ -257,12 +257,21 @@ const gIn = {
                 let spaceInfo = {}
                 let item = sectionAdvtSpaceList[j]
                 let area = await areaModel.findOneByName(item.area_name);
+                let advtSpace = await areaAdvtModel.findOneById(item.advt_space_id);
                 spaceInfo.category = area[0].category;
                 spaceInfo.area_name = item.area_name;
                 spaceInfo.location = area[0].location;
-                spaceInfo.live_size = parseInt(area[0].live_size);
-                spaceInfo.parking_num = parseInt(area[0].parking_num);
+                spaceInfo.live_size = area[0].live_size;
+                spaceInfo.parking_num = area[0].parking_num;
+                spaceInfo.avg_daily_traffic = area[0].avg_daily_traffic;
                 spaceInfo.space_position_des = item.advt_space_position_des;
+                spaceInfo.advt_space_position = item.advt_space_position;
+                let size = ''
+                for(let i in advtSpace[0].light_size){
+                    size=size+`${advtSpace[0].light_size[i]}m×`
+                }
+                spaceInfo.light_size = size.substring(0,size.length-1);
+           
                 o.list.push(spaceInfo)
             }
             result.push(o);
@@ -319,7 +328,8 @@ const gIn = {
                 }
             }
         }
-        let tableHead = ['序号', '名称', '分类', '地点', '户数', '车位数', '灯箱位置', '编号', '规格', '数量']
+
+        let tableHead = ['序号', '名称', '分类', '地点', '户数', '车位数', '日均流量', '灯箱位置', '编号', '规格', '数量']
         let indexx = 0;
         for (let i = 0; i < merges.length; i++) {
             let item = merges[i];
@@ -359,14 +369,13 @@ const gIn = {
                             break;
                         case 'C':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.location,
+                                v: util.formatCategory(item.category),
                                 s: contentStyle
                             };
                             break;
                         case 'D':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: util.formatCategory(item.category),
-
+                                v: item.location,
                                 s: contentStyle
                             };
                             break;
@@ -387,7 +396,7 @@ const gIn = {
                             break;
                         case 'G':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.daily,
+                                v: item.avg_daily_traffic,
                                 s: contentStyle
                             };
                             break;
@@ -411,6 +420,7 @@ const gIn = {
                             break;
                         case 'K':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                // TODO
                                 v: result[i].list.length,
                                 s: contentStyle,
                                 t: 'n'
