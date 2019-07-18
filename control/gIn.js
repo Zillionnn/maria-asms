@@ -267,11 +267,11 @@ const gIn = {
                 spaceInfo.space_position_des = item.advt_space_position_des;
                 spaceInfo.advt_space_position = item.advt_space_position;
                 let size = ''
-                for(let i in advtSpace[0].light_size){
-                    size=size+`${advtSpace[0].light_size[i]}m×`
+                for (let i in advtSpace[0].light_size) {
+                    size = size + `${advtSpace[0].light_size[i]}m×`
                 }
-                spaceInfo.light_size = size.substring(0,size.length-1);
-           
+                spaceInfo.light_size = size.substring(0, size.length - 1);
+
                 o.list.push(spaceInfo)
             }
             result.push(o);
@@ -380,26 +380,54 @@ const gIn = {
                             };
                             break;
                         case 'E':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: isNaN(item.live_size) ? '-' : parseInt(item.live_size),
-                                s: contentStyle,
-                                t: 'n'
-                            };
-                            break;
+                            if (isNaN(item.live_size) || item.live_size === undefined || item.live_size === null) {
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: '-',
+                                    s: contentStyle
+                                };
+                                break;
+                            } else {
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: parseInt(item.live_size),
+                                    s: contentStyle,
+                                    t: 'n'
+                                };
+                                break;
+                            }
+
 
                         case 'F':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: isNaN(item.parking_num) ? '-' : parseInt(item.parking_num),
-                                s: contentStyle,
-                                t: 'n'
-                            };
-                            break;
+                            if (isNaN( item.parking_num) ||  item.parking_num === undefined ||  item.parking_num === null) {
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: '-',
+                                    s: contentStyle
+                                };
+                                break;
+                            } else {
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: parseInt(item.parking_num),
+                                    s: contentStyle,
+                                    t: 'n'
+                                };
+                                break;
+                            }
+
                         case 'G':
-                            workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
-                                v: item.avg_daily_traffic,
-                                s: contentStyle
-                            };
-                            break;
+                            if (isNaN(item.avg_daily_traffic) || item.avg_daily_traffic === undefined || item.avg_daily_traffic === null) {
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: '-',
+                                    s: contentStyle
+                                };
+                                break;
+                            } else {
+                                workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
+                                    v: item.avg_daily_traffic,
+                                    s: contentStyle,
+                                    t: 'n'
+                                };
+                                break;
+                            }
+
                         case 'H':
                             workbook.Sheets.mySheet[`${letter}${rowA + 2 + k}`] = {
                                 v: item.space_position_des,
