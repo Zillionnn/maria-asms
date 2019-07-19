@@ -251,7 +251,7 @@ const gIn = {
             let o = {
                 section: item.section,
                 sectionSpaceTotal: 0,
-                summary:[],            
+                summary: [],
                 list: []
             }
             // // [{
@@ -476,51 +476,53 @@ const gIn = {
                                 break;
                         };
                     }
-                    console.log(item.area_name, tempIndex, tempDif)
+                    // console.log(item.area_name, tempIndex, tempDif)
                     // merge
                     if (k > 0 && (item.area_name !== result[i].list[k - 1].area_name)) {
-                        tempDif = k + 1
-                        console.log('***************************', item.area_name, tempIndex, tempDif);
-                        let startRow = rowA + tempIndex;
-                        let endRow = rowA + tempDif - 1;
-                        console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
+                            tempDif = k + 1
+                            // console.log('***************************', item.area_name, tempIndex, tempDif);
+                            let startRow = rowA + tempIndex;
+                            let endRow = rowA + tempDif - 1;
+                            console.log(item.area_name, tempIndex, tempDif, ' in  s.r>>>', startRow + 1, 'e.r>>>', endRow + 1)
 
-                        tempDif = k;
-
-                        for (let i = 1; i <= 6; i++) {
+                            for (let i = 1; i <= 6; i++) {
+                                merges.push({
+                                    s: {
+                                        c: i,
+                                        r: startRow
+                                    },
+                                    e: {
+                                        c: i,
+                                        r: endRow
+                                    }
+                                })
+                            }
                             merges.push({
                                 s: {
-                                    c: i,
+                                    c: 10,
                                     r: startRow
                                 },
                                 e: {
-                                    c: i,
+                                    c: 10,
                                     r: endRow
                                 }
                             })
-                        }
-                        merges.push({
-                            s: {
-                                c: 10,
-                                r: startRow
-                            },
-                            e: {
-                                c: 10,
-                                r: endRow
+
+                            workbook.Sheets.mySheet[`K${rowA + 2 + tempIndex}`] = {
+                                v: tempDif - tempIndex,
+                                s: contentStyle,
+                                t: 'n'
                             }
-                        })
 
-                        workbook.Sheets.mySheet[`K${rowA + 2 + tempIndex}`] = {
-                            v: tempDif - tempIndex,
-                            s: contentStyle,
-                            t: 'n'
-                        }
+                            tempIndex = tempDif
 
-                        tempIndex = tempDif
+
+                    
+
                     } else if (k === result[i].list.length - 1 && tempDif === 1) {
                         let startRow = rowA + tempIndex;
                         let endRow = startRow + result[i].list.length - 1
-                        console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
+                        console.log(item.area_name, ' tempDif === 1 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
 
                         for (let m = 1; m <= 6; m++) {
                             merges.push({
@@ -551,7 +553,7 @@ const gIn = {
                         }
                     }
                     else if (k === result[i].list.length - 1 && tempDif !== 1) {
-                        console.log('*** tempDif !== 1*****', item.area_name, tempIndex, tempDif);
+                        console.log(item.area_name, '*** tempDif !== 1*****', item.area_name, tempIndex, tempDif);
 
                         let startRow = rowA + tempDif + 1;
                         let endRow = rowA + result[i].list.length
