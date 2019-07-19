@@ -480,6 +480,7 @@ const gIn = {
                     // merge
                     if (k > 0 && (item.area_name !== result[i].list[k - 1].area_name)) {
                             tempDif = k + 1
+                        
                             // console.log('***************************', item.area_name, tempIndex, tempDif);
                             let startRow = rowA + tempIndex;
                             let endRow = rowA + tempDif - 1;
@@ -508,10 +509,18 @@ const gIn = {
                                 }
                             })
 
-                            workbook.Sheets.mySheet[`K${rowA + 2 + tempIndex}`] = {
+                            workbook.Sheets.mySheet[`K${rowA + tempIndex+1}`] = {
                                 v: tempDif - tempIndex,
                                 s: contentStyle,
                                 t: 'n'
+                            }
+
+                            if(result[i].list.length===tempDif){
+                                workbook.Sheets.mySheet[`K${rowA + tempDif+1}`] = {
+                                    v: 1,
+                                    s: contentStyle,
+                                    t: 'n'
+                                }
                             }
 
                             tempIndex = tempDif
@@ -581,8 +590,8 @@ const gIn = {
                             }
                         })
 
-                        workbook.Sheets.mySheet[`K${rowA + tempIndex + 2}`] = {
-                            v: result[i].list.length - tempIndex,
+                        workbook.Sheets.mySheet[`K${rowA + tempIndex + 1}`] = {
+                            v: result[i].list.length - tempIndex+1,
                             s: contentStyle,
                             t: 'n'
                         }
