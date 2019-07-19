@@ -251,8 +251,13 @@ const gIn = {
             let o = {
                 section: item.section,
                 sectionSpaceTotal: 0,
+                summary:[],            
                 list: []
             }
+            // // [{
+            //     category:1,
+            //     total:2
+            // }],    
 
             // 该区域下 方案的广告位个数
             let sectionAdvtSpaceList = await coAdvtPlanModel.listBySectionNameAndPlanId(item.section, body.plan_id);
