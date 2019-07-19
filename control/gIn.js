@@ -553,11 +553,10 @@ const gIn = {
                         }
                     }
                     else if (k === result[i].list.length - 1 && tempDif !== 1) {
-                        console.log(item.area_name, '*** tempDif !== 1*****', item.area_name, tempIndex, tempDif);
 
-                        let startRow = rowA + tempDif + 1;
+                        let startRow = rowA + tempDif;
                         let endRow = rowA + result[i].list.length
-                        console.log('  tempDif !== 1 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
+                        console.log(item.area_name,tempIndex, tempDif,'tempDif  !== 1 s.r>>', startRow + 1, 'e.r>>>', endRow + 1)
 
                         for (let m = 1; m <= 6; m++) {
                             merges.push({
