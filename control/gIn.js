@@ -473,237 +473,118 @@ const gIn = {
                     }
                     console.log(item.area_name, tempIndex, tempDif)
                     // merge
-                    if (item.area_name !== '龙光水悦馨园') {
-                        if (k > 0 && (item.area_name !== result[i].list[k - 1].area_name)) {
-                            tempDif = k + 1
-                            console.log('***************************', item.area_name, tempIndex, tempDif);
-                            let startRow = rowA + tempIndex;
-                            let endRow = rowA + tempDif - 1;
-                            console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
+                    if (k > 0 && (item.area_name !== result[i].list[k - 1].area_name)) {
+                        tempDif = k + 1
+                        console.log('***************************', item.area_name, tempIndex, tempDif);
+                        let startRow = rowA + tempIndex;
+                        let endRow = rowA + tempDif - 1;
+                        console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
 
-                            tempDif = k;
+                        tempDif = k;
 
-                            for (let i = 1; i <= 6; i++) {
-                                merges.push({
-                                    s: {
-                                        c: i,
-                                        r: startRow
-                                    },
-                                    e: {
-                                        c: i,
-                                        r: endRow
-                                    }
-                                })
-                            }
+                        for (let i = 1; i <= 6; i++) {
                             merges.push({
                                 s: {
-                                    c: 10,
+                                    c: i,
                                     r: startRow
                                 },
                                 e: {
-                                    c: 10,
+                                    c: i,
                                     r: endRow
                                 }
                             })
-
-                            workbook.Sheets.mySheet[`K${rowA + 2 + tempIndex}`] = {
-                                v: tempDif - tempIndex,
-                                s: contentStyle,
-                                t: 'n'
-                            }
-
-                            tempIndex = tempDif
-                        } else if (k === result[i].list.length - 1 && tempDif === 1) {
-                            let startRow = rowA + tempIndex;
-                            let endRow = startRow + result[i].list.length - 1
-                            console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
-
-                            for (let m = 1; m <= 6; m++) {
-                                merges.push({
-                                    s: {
-                                        c: m,
-                                        r: startRow
-                                    },
-                                    e: {
-                                        c: m,
-                                        r: endRow
-                                    }
-                                })
-                            }
-                            merges.push({
-                                s: {
-                                    c: 10,
-                                    r: startRow
-                                },
-                                e: {
-                                    c: 10,
-                                    r: endRow
-                                }
-                            })
-                            workbook.Sheets.mySheet[`K${rowA + result[i].list.length + 1}`] = {
-                                v: result[i].list.length,
-                                s: contentStyle,
-                                t: 'n'
-                            }
                         }
-                        else if (k === result[i].list.length - 1 && tempDif !== 1) {
-                            console.log('*** tempDif !== 1*****', item.area_name, tempIndex, tempDif);
-
-                            let startRow = rowA + tempDif + 1;
-                            let endRow = rowA + result[i].list.length
-                            console.log('  tempDif !== 1 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
-
-                            for (let m = 1; m <= 6; m++) {
-                                merges.push({
-                                    s: {
-                                        c: m,
-                                        r: startRow
-                                    },
-                                    e: {
-                                        c: m,
-                                        r: endRow
-                                    }
-                                })
+                        merges.push({
+                            s: {
+                                c: 10,
+                                r: startRow
+                            },
+                            e: {
+                                c: 10,
+                                r: endRow
                             }
-                            merges.push({
-                                s: {
-                                    c: 10,
-                                    r: startRow
-                                },
-                                e: {
-                                    c: 10,
-                                    r: endRow
-                                }
-                            })
+                        })
 
-                            workbook.Sheets.mySheet[`K${rowA + tempIndex + 2}`] = {
-                                v: result[i].list.length - tempIndex,
-                                s: contentStyle,
-                                t: 'n'
-                            }
+                        workbook.Sheets.mySheet[`K${rowA + 2 + tempIndex}`] = {
+                            v: tempDif - tempIndex,
+                            s: contentStyle,
+                            t: 'n'
                         }
 
-                    } else {
+                        tempIndex = tempDif
+                    } else if (k === result[i].list.length - 1 && tempDif === 1) {
+                        let startRow = rowA + tempIndex;
+                        let endRow = startRow + result[i].list.length - 1
+                        console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
 
-
-                        if (k > 0 && (item.location !== result[i].list[k - 1].location)) {
-                            tempDif = k + 1
-                            console.log('***************************', item.area_name, tempIndex, tempDif);
-                            let startRow = rowA + tempIndex+1;
-                            let endRow = rowA + tempDif - 1;
-                            console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
-
-                            tempDif = k;
-
-                            for (let i = 1; i <= 6; i++) {
-                                merges.push({
-                                    s: {
-                                        c: i,
-                                        r: startRow
-                                    },
-                                    e: {
-                                        c: i,
-                                        r: endRow
-                                    }
-                                })
-                            }
+                        for (let m = 1; m <= 6; m++) {
                             merges.push({
                                 s: {
-                                    c: 10,
+                                    c: m,
                                     r: startRow
                                 },
                                 e: {
-                                    c: 10,
+                                    c: m,
                                     r: endRow
                                 }
                             })
-
-                            workbook.Sheets.mySheet[`K${rowA + 2 + tempIndex}`] = {
-                                v: tempDif - tempIndex,
-                                s: contentStyle,
-                                t: 'n'
-                            }
-
-                            tempIndex = tempDif
-                        } else if (k === result[i].list.length - 1 && tempDif === 1) {
-                            let startRow = rowA + tempIndex;
-                            let endRow = startRow + result[i].list.length - 1
-                            console.log(' tempDif === 0 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
-
-                            for (let m = 1; m <= 6; m++) {
-                                merges.push({
-                                    s: {
-                                        c: m,
-                                        r: startRow
-                                    },
-                                    e: {
-                                        c: m,
-                                        r: endRow
-                                    }
-                                })
-                            }
-                            merges.push({
-                                s: {
-                                    c: 10,
-                                    r: startRow
-                                },
-                                e: {
-                                    c: 10,
-                                    r: endRow
-                                }
-                            })
-                            workbook.Sheets.mySheet[`K${rowA + result[i].list.length + 1}`] = {
-                                v: result[i].list.length,
-                                s: contentStyle,
-                                t: 'n'
-                            }
                         }
-                        else if (k === result[i].list.length - 1 && tempDif !== 1) {
-                            console.log('*** tempDif !== 1*****', item.area_name, tempIndex, tempDif);
-
-                            let startRow = rowA + tempDif + 1;
-                            let endRow = rowA + result[i].list.length
-                            console.log('  tempDif !== 1 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
-
-                            for (let m = 1; m <= 6; m++) {
-                                merges.push({
-                                    s: {
-                                        c: m,
-                                        r: startRow
-                                    },
-                                    e: {
-                                        c: m,
-                                        r: endRow
-                                    }
-                                })
+                        merges.push({
+                            s: {
+                                c: 10,
+                                r: startRow
+                            },
+                            e: {
+                                c: 10,
+                                r: endRow
                             }
+                        })
+                        workbook.Sheets.mySheet[`K${rowA + result[i].list.length + 1}`] = {
+                            v: result[i].list.length,
+                            s: contentStyle,
+                            t: 'n'
+                        }
+                    }
+                    else if (k === result[i].list.length - 1 && tempDif !== 1) {
+                        console.log('*** tempDif !== 1*****', item.area_name, tempIndex, tempDif);
+
+                        let startRow = rowA + tempDif + 1;
+                        let endRow = rowA + result[i].list.length
+                        console.log('  tempDif !== 1 s.r>', startRow + 1, 'e.r>>>', endRow + 1)
+
+                        for (let m = 1; m <= 6; m++) {
                             merges.push({
                                 s: {
-                                    c: 10,
+                                    c: m,
                                     r: startRow
                                 },
                                 e: {
-                                    c: 10,
+                                    c: m,
                                     r: endRow
                                 }
                             })
-
-                            workbook.Sheets.mySheet[`K${rowA + tempIndex + 2}`] = {
-                                v: result[i].list.length - tempIndex,
-                                s: contentStyle,
-                                t: 'n'
-                            }
                         }
+                        merges.push({
+                            s: {
+                                c: 10,
+                                r: startRow
+                            },
+                            e: {
+                                c: 10,
+                                r: endRow
+                            }
+                        })
 
-
+                        workbook.Sheets.mySheet[`K${rowA + tempIndex + 2}`] = {
+                            v: result[i].list.length - tempIndex,
+                            s: contentStyle,
+                            t: 'n'
+                        }
                     }
 
                 }
 
             }
-
-
-
 
         }
 
