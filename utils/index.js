@@ -35,6 +35,12 @@ const util = {
                 return '住宅'
             case 1:
                 return '商业中心'
+            case 2:
+                return '写字楼'
+            case 3:
+                return '酒店'
+            case 4:
+                return '商务中心'            
         }
     }
 }

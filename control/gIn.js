@@ -256,6 +256,17 @@ const gIn = {
         summary: [],
         list: []
       };
+      let ResidentialList = [];
+      let OfficeBuildingList = [];
+      let HotelList = [];
+      let BusinessCenterList = [];
+      let CommerceCenterList = [];
+
+      let residentialNum=0;
+      let officeBuildNum=0;
+      let hotelNum =0;
+      let businessCenterNum = 0;
+      let commerCenterNum = 0;
       // // [{
       //     category:1,
       //     total:2
@@ -289,11 +300,75 @@ const gIn = {
         spaceInfo.light_size = size.substring(0, size.length - 1);
 
         o.list.push(spaceInfo);
+
+        if (spaceInfo.category === 0) {
+          if (ResidentialList.indexOf(spaceInfo.area_name) === -1) {
+            ResidentialList.push(spaceInfo.area_name);           
+          }
+          residentialNum+=1;
+        }
+        if (spaceInfo.category === 1) {
+          if (CommerceCenterList.indexOf(spaceInfo.area_name) === -1) {
+            CommerceCenterList.push(spaceInfo.area_name);          
+          
+          }
+          commerCenterNum+=1;
+        }
+        if (spaceInfo.category === 2) {
+          if (OfficeBuildingList.indexOf(spaceInfo.area_name) === -1) {
+            OfficeBuildingList.push(spaceInfo.area_name);
+          
+          }
+          officeBuildNum+=1;
+        }
+        if (spaceInfo.category === 3) {
+          if (HotelList.indexOf(spaceInfo.area_name) === -1) {
+            HotelList.push(spaceInfo.area_name);
+          
+          }
+          hotelNum+=1;
+        }
+        if (spaceInfo.category === 4) {
+          if (BusinessCenterList.indexOf(spaceInfo.area_name) === -1) {
+            BusinessCenterList.push(spaceInfo.area_name);
+           
+          }
+          businessCenterNum+=1;
+        }
       }
+
+      o.summary.push({
+        category: 0,
+        total: ResidentialList.length,
+        spaceTotal: residentialNum
+      });
+      o.summary.push({
+        category: 2,
+        total: OfficeBuildingList.length,
+        spaceTotal:officeBuildNum
+      });
+      o.summary.push({
+        category: 3,
+        total: HotelList.length,
+        spaceTotal:hotelNum
+      });
+      o.summary.push({
+        category: 4,
+        total: BusinessCenterList.length,
+        spaceTotal:businessCenterNum
+      });
+      o.summary.push({
+        category: 1,
+        total: CommerceCenterList.length,
+        spaceTotal:commerCenterNum
+      });
+
       result.push(o);
     }
     // 导入excel 的 result
+
     console.log("=========================\n", result);
+
     let merges = [];
     for (let i = 0; i < result.length; i++) {
       console.log("merge    i       ", i);
@@ -355,9 +430,21 @@ const gIn = {
       let item = merges[i];
       // rowA  表头
       let rowA = item.s.r + 1;
+      let summaryString = ''
       if (result[i]) {
+        for(let item of result[i].summary){
+          if(item.total>0 ){
+            if(summaryString!==""){
+              summaryString= summaryString+`、${item.total} ${util.formatCategory(item.category)} ${item.spaceTotal} 灯箱`
+            }else{
+              summaryString= summaryString+`${item.total} ${util.formatCategory(item.category)} ${item.spaceTotal} 灯箱`
+            }
+              
+          }
+        }
+        summaryString.substring(0,2)
         workbook.Sheets.mySheet[`A${rowA}`] = {
-          v: result[i].section,
+          v: `${result[i].section} ${result[i].list.length}个灯箱 (${summaryString})`,
           s: sectionStyle
         };
 
