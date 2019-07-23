@@ -111,6 +111,19 @@ const areaAdvtModel = {
         }
     },
 
+        /**
+     * 未出租的广告位
+     * @param {*} body 
+     */
+    countIsRent() {
+        try {
+            // console.log(params)
+            return query('select count(*) from t_area_advt_space where isrented=1;')
+        } catch (err) {
+            return Promise.reject(err)
+        }
+    },
+
 
     findOneById(id) {
         try {

@@ -332,6 +332,7 @@ const areaAdvt = {
                 util.handleError(ctx, err)
             })
     },
+
     /**
      * 统计为出租的数量
      * @param {*} ctx 
@@ -349,6 +350,25 @@ const areaAdvt = {
                 util.handleError(ctx, err)
             })
     },
+
+     /**
+     * 统计为出租的数量
+     * @param {*} ctx 
+     */
+    async countIsRent(ctx) {
+        await areaAdvtModel.countIsRent()
+            .then(r => {
+                ctx.response.body = {
+                    code: 0,
+                    message: 'success',
+                    data: r
+                }
+            })
+            .catch(err => {
+                util.handleError(ctx, err)
+            })
+    },
+
 
     async scheduleStopRent(body) {
         console.log('START STOP RENT>>', body.id)
@@ -441,11 +461,11 @@ function checkAdvtSpaceIsRented(ctx, spaceList) {
                         console.warn('===========IT IS RENTED!==========')
                         reject('有广告位已出租，请检查...')
                     }
-                    if (i === spaceList.length-1) {
+                    if (i === spaceList.length - 1) {
                         resolve()
                     }
                 })
-           
+
         }
     })
 

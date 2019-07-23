@@ -74,6 +74,7 @@ router.delete(`/api/v1/areaAdvt/:id`, areaAdvt.delete)
 router.put(`/api/v1/areaAdvt/:id`, areaAdvt.update)
 router.put(`/api/v1/areaAdvt/stop-rent/:id`, areaAdvt.stopRent)
 router.get(`/api/v1/areaAdvt/norent/count`, areaAdvt.countNoRentCtrl)
+router.get(`/api/v1/areaAdvt/isrented/count`, areaAdvt.countIsRent)
 
 // 广告位列表更新出租信息
 router.put(`/api/v1/coplan/areaAdvt/release-space`, areaAdvt.updateSpace)
