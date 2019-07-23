@@ -39,7 +39,7 @@ async function useAuth(ctx, next) {
 router.post(`/api/v1/uploadImg`, gIn.upload)
 router.post(`/api/v1/uploadXls`, gIn.uploadExcel)
 router.get(`/api/v1/exportXlsx/:plan_id`, gIn.exportExcel)
-router.get(`/api/v1/exportAllSpace`, gIn.exportAllSpaceExcel)
+router.get(`/api/v1/exportNoRentedSpaceExcel`, gIn.exportNoRentedSpaceExcel)
 
 router.get('/api/v1/rdtlarea/list', rdtlarea.list)
 router.post(`/api/v1/rdtlarea`, rdtlarea.findOneByName)

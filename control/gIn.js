@@ -756,7 +756,7 @@ const gIn = {
    * all  did not rented
    * @param {*} ctx 
    */
-  async exportAllSpaceExcel(ctx) {
+  async exportNoRentedSpaceExcel(ctx) {
     let body = ctx.params;
     console.log(body);
     let result = [];
