@@ -48,7 +48,6 @@ const sectionStyle = {
   }
 };
 
-
 const tableHeadStyle = {
   font: {
     sz: 10,
@@ -242,7 +241,6 @@ const gIn = {
   },
 
   async exportExcel(ctx) {
-    
     let body = ctx.params;
     console.log(body);
     let result = [];
@@ -312,28 +310,24 @@ const gIn = {
         if (spaceInfo.category === 1) {
           if (CommerceCenterList.indexOf(spaceInfo.area_name) === -1) {
             CommerceCenterList.push(spaceInfo.area_name);
-
           }
           commerCenterNum += 1;
         }
         if (spaceInfo.category === 2) {
           if (OfficeBuildingList.indexOf(spaceInfo.area_name) === -1) {
             OfficeBuildingList.push(spaceInfo.area_name);
-
           }
           officeBuildNum += 1;
         }
         if (spaceInfo.category === 3) {
           if (HotelList.indexOf(spaceInfo.area_name) === -1) {
             HotelList.push(spaceInfo.area_name);
-
           }
           hotelNum += 1;
         }
         if (spaceInfo.category === 4) {
           if (BusinessCenterList.indexOf(spaceInfo.area_name) === -1) {
             BusinessCenterList.push(spaceInfo.area_name);
-
           }
           businessCenterNum += 1;
         }
@@ -432,26 +426,35 @@ const gIn = {
       let item = merges[i];
       // rowA  表头
       let rowA = item.s.r + 1;
-      let summaryString = ''
+      let summaryString = "";
       if (result[i]) {
         for (let item of result[i].summary) {
           if (item.total > 0) {
             if (summaryString !== "") {
-              summaryString = summaryString + `、${item.total} ${util.formatCategory(item.category)} ${item.spaceTotal} 灯箱`
+              summaryString =
+                summaryString +
+                `、${item.total} ${util.formatCategory(item.category)} ${
+                  item.spaceTotal
+                } 灯箱`;
             } else {
-              summaryString = summaryString + `${item.total} ${util.formatCategory(item.category)} ${item.spaceTotal} 灯箱`
+              summaryString =
+                summaryString +
+                `${item.total} ${util.formatCategory(item.category)} ${
+                  item.spaceTotal
+                } 灯箱`;
             }
-
           }
         }
-        summaryString.substring(0, 2)
+        summaryString.substring(0, 2);
         workbook.Sheets.mySheet[`A${rowA}`] = {
-          v: `${result[i].section} ${result[i].list.length}个灯箱 (${summaryString})`,
+          v: `${result[i].section} ${
+            result[i].list.length
+          }个灯箱 (${summaryString})`,
           s: sectionStyle
         };
 
         // 写入表头
-        for (let j = 0, keyCode = 65; j < tableHead.length; j++ , keyCode++) {
+        for (let j = 0, keyCode = 65; j < tableHead.length; j++, keyCode++) {
           let head = tableHead[j];
           let letter = String.fromCharCode(keyCode);
           workbook.Sheets.mySheet[`${letter}${rowA + 1}`] = {
@@ -749,21 +752,18 @@ const gIn = {
     ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
   },
 
-
-
-
   /**
    * all  did not rented
-   * @param {*} ctx 
+   * @param {*} ctx
    */
-  async exportNoRentedSpaceExcel(ctx) {
-    let body = ctx.params;
-    console.log(body);
+  async exportRentedSpaceExcel(ctx) {
+    let isRented = ctx.params.isrented;
+    console.log("isRented", isRented);
     let result = [];
     // console.log(plan);
-    let total = await areaAdvtModel.isRentedList(0);
+    let total = await areaAdvtModel.isRentedList(isRented);
 
-    let sectionList = ['东区', '西区', '石岐区', '秦淮区'];
+    let sectionList = util.sectionList;
     for (let i = 0; i < sectionList.length; i++) {
       let item = sectionList[i];
       let o = {
@@ -789,7 +789,10 @@ const gIn = {
       // }],
 
       // 该区域下 方案的广告位个数
-      let sectionAdvtSpaceList = await areaAdvtModel.listBySectionName(item);
+      let sectionAdvtSpaceList = await areaAdvtModel.listBySectionName(
+        item,
+        isRented
+      );
       o.sectionSpaceTotal = sectionAdvtSpaceList.length;
 
       // 广告位id 列表
@@ -826,28 +829,24 @@ const gIn = {
         if (spaceInfo.category === 1) {
           if (CommerceCenterList.indexOf(spaceInfo.area_name) === -1) {
             CommerceCenterList.push(spaceInfo.area_name);
-
           }
           commerCenterNum += 1;
         }
         if (spaceInfo.category === 2) {
           if (OfficeBuildingList.indexOf(spaceInfo.area_name) === -1) {
             OfficeBuildingList.push(spaceInfo.area_name);
-
           }
           officeBuildNum += 1;
         }
         if (spaceInfo.category === 3) {
           if (HotelList.indexOf(spaceInfo.area_name) === -1) {
             HotelList.push(spaceInfo.area_name);
-
           }
           hotelNum += 1;
         }
         if (spaceInfo.category === 4) {
           if (BusinessCenterList.indexOf(spaceInfo.area_name) === -1) {
             BusinessCenterList.push(spaceInfo.area_name);
-
           }
           businessCenterNum += 1;
         }
@@ -878,8 +877,9 @@ const gIn = {
         total: CommerceCenterList.length,
         spaceTotal: commerCenterNum
       });
-
-      result.push(o);
+      if (o.list.length > 0) {
+        result.push(o);
+      }
     }
     // 导入excel 的 result
 
@@ -946,26 +946,36 @@ const gIn = {
       let item = merges[i];
       // rowA  表头
       let rowA = item.s.r + 1;
-      let summaryString = ''
+      let summaryString = "";
       if (result[i]) {
         for (let item of result[i].summary) {
           if (item.total > 0) {
             if (summaryString !== "") {
-              summaryString = summaryString + `、${item.total} ${util.formatCategory(item.category)} ${item.spaceTotal} 灯箱`
+              summaryString =
+                summaryString +
+                `、${item.total} ${util.formatCategory(item.category)} ${
+                  item.spaceTotal
+                } 灯箱`;
             } else {
-              summaryString = summaryString + `${item.total} ${util.formatCategory(item.category)} ${item.spaceTotal} 灯箱`
+              summaryString =
+                summaryString +
+                `${item.total} ${util.formatCategory(item.category)} ${
+                  item.spaceTotal
+                } 灯箱`;
             }
-
           }
         }
-        summaryString.substring(0, 2)
+        summaryString.substring(0, 2);
+
         workbook.Sheets.mySheet[`A${rowA}`] = {
-          v: `${result[i].section} ${result[i].list.length}个灯箱 (${summaryString})`,
+          v: `${result[i].section} ${
+            result[i].list.length
+          }个灯箱 (${summaryString})`,
           s: sectionStyle
         };
 
         // 写入表头
-        for (let j = 0, keyCode = 65; j < tableHead.length; j++ , keyCode++) {
+        for (let j = 0, keyCode = 65; j < tableHead.length; j++, keyCode++) {
           let head = tableHead[j];
           let letter = String.fromCharCode(keyCode);
           workbook.Sheets.mySheet[`${letter}${rowA + 1}`] = {
@@ -1262,9 +1272,6 @@ const gIn = {
     ctx.body = fs.readFileSync(fileName);
     ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
   }
-
-
-
 };
 
 function getMergeStart(i, list) {

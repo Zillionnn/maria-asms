@@ -286,9 +286,9 @@ const areaAdvtModel = {
      * 按区域 未出租 查询列表
      * @param {*} p 
      */
-    listBySectionName(p){
+    listBySectionName(section, isRented){
         try{
-            return query('select * from t_area_advt_space where section=$1 AND isrented=0 order by area_name ASC;',[p]);
+            return query('select * from t_area_advt_space where section=$1 AND isrented=$2 order by area_name ASC;',[section, isRented]);
         } catch (err) {
             return Promise.reject(err)
         }
