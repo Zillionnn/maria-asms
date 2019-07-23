@@ -343,7 +343,7 @@ const areaAdvt = {
                 ctx.response.body = {
                     code: 0,
                     message: 'success',
-                    data: r
+                    data: r[0]
                 }
             })
             .catch(err => {
@@ -361,7 +361,7 @@ const areaAdvt = {
                 ctx.response.body = {
                     code: 0,
                     message: 'success',
-                    data: r
+                    data: r[0]
                 }
             })
             .catch(err => {
