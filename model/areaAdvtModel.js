@@ -258,6 +258,27 @@ const areaAdvtModel = {
         } catch (err) {
             return Promise.reject(err)
         }
+    },
+
+    isRentedList(p) {
+        try {
+            // console.log(params)
+            return query('select * from t_area_advt_space where isrented=$1;',[p])
+        } catch (err) {
+            return Promise.reject(err)
+        }
+    },
+    
+    /**
+     * 按区域 未出租 查询列表
+     * @param {*} p 
+     */
+    listBySectionName(p){
+        try{
+            return query('select * from t_area_advt_space where section=$1 AND isrented=0 order by area_name ASC;',[p]);
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 }
 
