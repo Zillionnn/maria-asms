@@ -11,6 +11,120 @@ const areaAdvtCtrl = require("./areaAdvt");
 const coAdvtPlanModel = require("../model/coAdvtPlanModel");
 const planSectionModel = require("../model/planSectionModel");
 
+const sectionStyle = {
+  font: {
+    sz: 10,
+    bold: false,
+    color: { rgb: "000000" }
+  },
+  fill: {
+    fgColor: { rgb: "FFC000" }
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: {
+        rgb: "00000000"
+      }
+    },
+    left: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    },
+    right: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    },
+    bottom: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    }
+  }
+};
+
+
+const tableHeadStyle = {
+  font: {
+    sz: 10,
+    bold: false,
+    color: { rgb: "000000" }
+  },
+  fill: {
+    fgColor: { rgb: "FFF1CE" }
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: {
+        rgb: "00000000"
+      }
+    },
+    left: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    },
+    right: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    },
+    bottom: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    }
+  }
+};
+
+const contentStyle = {
+  font: {
+    sz: 10,
+    bold: false,
+    color: { rgb: "000000" }
+  },
+  alignment: {
+    vertical: "center",
+    horizontal: "center",
+    wrapText: true
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: {
+        rgb: "00000000"
+      }
+    },
+    left: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    },
+    right: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    },
+    bottom: {
+      style: "thin",
+      color: {
+        rgb: "000000"
+      }
+    }
+  }
+};
+
 const gIn = {
   async checkSchedule() {
     console.log("CHECK SCHEDULE");
@@ -128,119 +242,7 @@ const gIn = {
   },
 
   async exportExcel(ctx) {
-    let sectionStyle = {
-      font: {
-        sz: 10,
-        bold: false,
-        color: { rgb: "000000" }
-      },
-      fill: {
-        fgColor: { rgb: "FFC000" }
-      },
-      border: {
-        top: {
-          style: "thin",
-          color: {
-            rgb: "00000000"
-          }
-        },
-        left: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        right: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        bottom: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        }
-      }
-    };
-
-    let tableHeadStyle = {
-      font: {
-        sz: 10,
-        bold: false,
-        color: { rgb: "000000" }
-      },
-      fill: {
-        fgColor: { rgb: "FFF1CE" }
-      },
-      border: {
-        top: {
-          style: "thin",
-          color: {
-            rgb: "00000000"
-          }
-        },
-        left: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        right: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        bottom: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        }
-      }
-    };
-
-    let contentStyle = {
-      font: {
-        sz: 10,
-        bold: false,
-        color: { rgb: "000000" }
-      },
-      alignment: {
-        vertical: "center",
-        horizontal: "center",
-        wrapText: true
-      },
-      border: {
-        top: {
-          style: "thin",
-          color: {
-            rgb: "00000000"
-          }
-        },
-        left: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        right: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        bottom: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        }
-      }
-    };
-
+    
     let body = ctx.params;
     console.log(body);
     let result = [];
@@ -755,119 +757,6 @@ const gIn = {
    * @param {*} ctx 
    */
   async exportAllSpaceExcel(ctx) {
-    let sectionStyle = {
-      font: {
-        sz: 10,
-        bold: false,
-        color: { rgb: "000000" }
-      },
-      fill: {
-        fgColor: { rgb: "FFC000" }
-      },
-      border: {
-        top: {
-          style: "thin",
-          color: {
-            rgb: "00000000"
-          }
-        },
-        left: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        right: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        bottom: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        }
-      }
-    };
-
-    let tableHeadStyle = {
-      font: {
-        sz: 10,
-        bold: false,
-        color: { rgb: "000000" }
-      },
-      fill: {
-        fgColor: { rgb: "FFF1CE" }
-      },
-      border: {
-        top: {
-          style: "thin",
-          color: {
-            rgb: "00000000"
-          }
-        },
-        left: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        right: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        bottom: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        }
-      }
-    };
-
-    let contentStyle = {
-      font: {
-        sz: 10,
-        bold: false,
-        color: { rgb: "000000" }
-      },
-      alignment: {
-        vertical: "center",
-        horizontal: "center",
-        wrapText: true
-      },
-      border: {
-        top: {
-          style: "thin",
-          color: {
-            rgb: "00000000"
-          }
-        },
-        left: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        right: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        },
-        bottom: {
-          style: "thin",
-          color: {
-            rgb: "000000"
-          }
-        }
-      }
-    };
-
     let body = ctx.params;
     console.log(body);
     let result = [];
