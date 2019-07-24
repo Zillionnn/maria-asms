@@ -5,8 +5,8 @@ const util = {
     let e = new Error(err);
     console.error(
       "######################" +
-        new Date().toLocaleString() +
-        "#######################"
+      new Date().toLocaleString() +
+      "#######################"
     );
     console.error("HANDLE ERROR>>", e);
     ctx.status = 400;
@@ -43,6 +43,31 @@ const util = {
       case 4:
         return "商务中心";
     }
+  },
+  formatFIleTime(ts) {
+    let t = new Date(ts);
+    let y = t.getFullYear();
+    let mon = t.getMonth() + 1;
+    if (mon < 10) {
+      mon = `0${mon}`
+    }
+    let date = t.getDate();
+    if (date < 10) {
+      date = `0${date}`
+    }
+    let h = t.getHours();
+    if (h < 10) {
+      h = `0${h}`
+    }
+    let m = t.getMinutes();
+    if (m < 10) {
+      m = `0${m}`
+    }
+    let s = t.getSeconds();
+    if (s < 10) {
+      s = `0${s}`
+    }
+    return `${y}${mon}${date}${h}${m}${s}`
   },
 
   sectionList: [

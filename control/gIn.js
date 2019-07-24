@@ -245,7 +245,9 @@ const gIn = {
     console.log(body);
     let result = [];
     let plan = await coAdvtPlanModel.listByPlanId(body.plan_id);
-    // console.log(plan);
+    console.log(plan);
+    let coName = plan[0].co_name;
+    let planName = plan[0].plan_name;
 
     let sectionList = await planSectionModel.listByPlanId(body.plan_id);
     for (let i = 0; i < sectionList.length; i++) {
@@ -745,7 +747,7 @@ const gIn = {
         hpt: "16"
       }
     ];
-    let fileName = `sss.xlsx`;
+    let fileName = encodeURI(`${coName}-${planName}-${util.formatFIleTime(new Date().getTime())}.xlsx`);
     let file = XLSX.writeFile(workbook, fileName);
 
     ctx.body = fs.readFileSync(fileName);
