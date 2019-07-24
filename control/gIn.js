@@ -1268,7 +1268,7 @@ const gIn = {
         hpt: "16"
       }
     ];
-    let fileName = `sss.xlsx`;
+    let fileName = encodeURI(`广告位.xlsx`);
     let file = XLSX.writeFile(workbook, fileName);
 
     ctx.body = fs.readFileSync(fileName);
