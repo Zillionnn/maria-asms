@@ -54,11 +54,11 @@ const coModel = {
     insertOne(body) {
         try {
             let params = []
-            let fieldList = ['name']
+            let fieldList = ['name','contact','phone','address']
             fieldList.forEach(f => {
                 params.push(body[f])
             })
-            return query('INSERT INTO t_co(name) VALUES ($1::text);', params)
+            return query('INSERT INTO t_co(name,phone,address) VALUES ($1::text,$2,$3);', params)
         } catch (err) {
             return Promise.reject(err)
         }
@@ -74,13 +74,13 @@ const coModel = {
     update(body) {
         try {
             let params = []
-            let fieldList = ['id', 'name']
+            let fieldList = ['id', 'name','contact','phone','address']
             fieldList.forEach(f => {
                 params.push(body[f])
             })
             console.log(params)
             return query(`UPDATE t_co
-            SET name=$2, update_time=now()
+            SET name=$2, contact=$3,phone=$4,address=$5, update_time=now()
             WHERE id=$1;`, params)
         } catch (err) {
             return Promise.reject(err)
