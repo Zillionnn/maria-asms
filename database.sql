@@ -114,3 +114,8 @@ create table t_plan_section(
     section text,
     update_time timestamp with time zone DEFAULT now()
 );
+
+-- TODO
+-- 1.企业增加 联系人，电话，地址，
+-- 2.导出所有
+-- 3.企业敲定多个方案吗

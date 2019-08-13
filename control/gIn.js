@@ -755,7 +755,7 @@ const gIn = {
   },
 
   /**
-   * all  did not rented
+   * all  is or not rented
    * @param {*} ctx
    */
   async exportRentedSpaceExcel(ctx) {
