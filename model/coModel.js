@@ -58,7 +58,7 @@ const coModel = {
             fieldList.forEach(f => {
                 params.push(body[f])
             })
-            return query('INSERT INTO t_co(name,phone,address) VALUES ($1::text,$2,$3);', params)
+            return query('INSERT INTO t_co(name,contact,phone,address) VALUES ($1::text,$2,$3,$4);', params)
         } catch (err) {
             return Promise.reject(err)
         }
