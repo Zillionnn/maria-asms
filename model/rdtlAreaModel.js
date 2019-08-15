@@ -154,6 +154,24 @@ const rdtlAreaModel = {
     } catch (err) {
       return Promise.reject(err);
     }
+  },
+  /**
+   * 通过区域查小区
+   * @param {*} body 
+   */
+  listBySection(body) {
+    try {
+      let params = [],
+        fieldList = [         
+          "section"        
+        ];
+      fieldList.forEach(k => {
+        params.push(body[k]);
+      });
+      return query(`select * from t_residential_area where section = $1`, params)
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 };
 
