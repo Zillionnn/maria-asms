@@ -70,7 +70,7 @@ const rdtlAreaModel = {
           "parking_num",
           "location",
           "avg_daily_traffic",
-          "is_realestate"
+          "is_exclusive",
         ];
       fieldList.forEach(k => {
         params.push(body[k]);
@@ -79,7 +79,7 @@ const rdtlAreaModel = {
 
       return query(
         `INSERT INTO public.t_residential_area(
-             section, serial, name, "position", lnglat, category, live_size, parking_num, location, avg_daily_traffic,is_realestate)
+             section, serial, name, "position", lnglat, category, live_size, parking_num, location, avg_daily_traffic,is_exclusive)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
         params
       );
@@ -114,7 +114,7 @@ const rdtlAreaModel = {
           "parking_num",
           "location",
           "avg_daily_traffic",
-          "is_realestate"
+          "is_exclusive"
         ];
       fieldList.forEach(k => {
         params.push(body[k]);
@@ -122,7 +122,7 @@ const rdtlAreaModel = {
 
       return query(
         `UPDATE public.t_residential_area
-        SET section=$2, serial=$3, name=$4, "position"=$5, lnglat=$6, category=$7, live_size=$8, parking_num=$9, location=$10, avg_daily_traffic=$11,is_realestate=$12, update_time=now() 
+        SET section=$2, serial=$3, name=$4, "position"=$5, lnglat=$6, category=$7, live_size=$8, parking_num=$9, location=$10, avg_daily_traffic=$11,is_exclusive=$12, update_time=now() 
         WHERE id=$1;`,
         params
       ).then(r => {
@@ -134,7 +134,7 @@ const rdtlAreaModel = {
           body.is_realestate
         ]);
         query(
-          `UPDATE t_area_advt_space SET area_name=$1, area_location=$3, section=$4, is_realestate=$5 WHERE area_id=$2`,
+          `UPDATE t_area_advt_space SET area_name=$1, area_location=$3, section=$4, is_exclusive=$5 WHERE area_id=$2`,
           [body.name, body.id, body.location, body.section, body.is_realestate]
         );
       });
