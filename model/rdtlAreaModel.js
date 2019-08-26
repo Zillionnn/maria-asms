@@ -46,6 +46,17 @@ const rdtlAreaModel = {
       return Promise.reject(err);
     }
   },
+  /**
+   * 查询小区名字数量 查重
+   * @param {*} name 
+   */
+  countByName(name) {
+    try {
+      return query(`SELECT count(*) from t_residential_area where name=$1;`, [name])
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  },
   findOneById(params) {
     try {
       return query(
@@ -162,8 +173,8 @@ const rdtlAreaModel = {
   listBySection(body) {
     try {
       let params = [],
-        fieldList = [         
-          "section"        
+        fieldList = [
+          "section"
         ];
       fieldList.forEach(k => {
         params.push(body[k]);

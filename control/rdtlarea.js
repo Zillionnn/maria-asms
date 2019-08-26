@@ -53,6 +53,9 @@ const rdtlArea = {
             })
 
     },
+    async countByName(ctx){
+
+    },
     async findById(ctx) {
         let params = [], id = ctx.params.id
         params.push(id)
