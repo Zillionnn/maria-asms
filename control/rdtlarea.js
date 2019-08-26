@@ -76,17 +76,24 @@ const rdtlArea = {
      */
     async insertOne(ctx) {
         let body = ctx.request.body.data
+        let name = body.name.replace(/\s/g, '')
 
-        await rdtlAreaModel.insertOne(body)
-            .then(r => {
-                ctx.response.body = {
-                    code: 0,
-                    messaage: 'success'
-                }
-            })
-            .catch(err => {
-                util.handleError(ctx, err)
-            })
+        let r = await rdtlAreaModel.findOneByName(name)
+        if (r.length > 0) {
+            util.handleError(ctx, '小区名称重复')
+        } else {
+            await rdtlAreaModel.insertOne(body)
+                .then(r => {
+                    ctx.response.body = {
+                        code: 0,
+                        messaage: 'success'
+                    }
+                })
+                .catch(err => {
+                    util.handleError(ctx, err)
+                })
+        }
+
 
     },
     /**
@@ -133,18 +140,18 @@ const rdtlArea = {
 
     async upload(ctx) {
         const file = ctx.request.files.file;
-        
+
         const reader = fs.createReadStream(file.path);
 
         // TOD png jpg
-        let name = Math.random()+'.png'
+        let name = Math.random() + '.png'
         const stream = fs.createWriteStream(path.join(`/var/www/html/images`, name));
         reader.pipe(stream);
         console.log('uploading %s -> %s', file.name, stream.path);
-        ctx.response.body={
-            code:0,
-            messaage:'success',
-            data:{
+        ctx.response.body = {
+            code: 0,
+            messaage: 'success',
+            data: {
                 path: `http://106.12.40.54/images/${name}`
             }
         }
