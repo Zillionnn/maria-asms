@@ -78,22 +78,16 @@ const rdtlArea = {
         let body = ctx.request.body.data
         let name = body.name.replace(/\s/g, '')
 
-        let r = await rdtlAreaModel.findOneByName(name)
-        if (r.length > 0) {
-            util.handleError(ctx, '小区名称重复')
-        } else {
-            await rdtlAreaModel.insertOne(body)
-                .then(r => {
-                    ctx.response.body = {
-                        code: 0,
-                        messaage: 'success'
-                    }
-                })
-                .catch(err => {
-                    util.handleError(ctx, err)
-                })
-        }
-
+        await rdtlAreaModel.insertOne(body)
+            .then(r => {
+                ctx.response.body = {
+                    code: 0,
+                    messaage: 'success'
+                }
+            })
+            .catch(err => {
+                util.handleError(ctx, err)
+            })
 
     },
     /**
