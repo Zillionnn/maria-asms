@@ -763,7 +763,13 @@ const gIn = {
     console.log("isRented", isRented);
     let result = [];
     // console.log(plan);
-    let total = await areaAdvtModel.isRentedList(isRented);
+    let total = null;
+    if(isRented<2){
+       total = await areaAdvtModel.isRentedList(isRented);
+    } else {
+       total = await areaAdvtModel.AllList();
+    }
+ 
 
     let sectionList = util.sectionList;
     for (let i = 0; i < sectionList.length; i++) {

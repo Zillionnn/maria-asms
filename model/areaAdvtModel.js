@@ -281,6 +281,15 @@ const areaAdvtModel = {
             return Promise.reject(err)
         }
     },
+
+    AllList(p) {
+        try {
+            // console.log(params)
+            return query('select * from t_area_advt_space;')
+        } catch (err) {
+            return Promise.reject(err)
+        }
+    },
     
     /**
      * 按区域 未出租 查询列表
