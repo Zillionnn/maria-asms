@@ -319,7 +319,27 @@ const areaAdvtModel = {
       return Promise.reject(err);
     }
   },
-
+  /**
+   *  所有广告位
+   * @param {1} p
+   */
+  AllList() {
+    try {
+      return query("select * from t_area_advt_space ;");
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+  AllListBySectionName(section) {
+    try {
+      return query(
+        "select * from t_area_advt_space where section=$1 order by area_name ASC;",
+        [section]
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
   /**
    * 按区域 未出租 查询列表
    * @param {*} p

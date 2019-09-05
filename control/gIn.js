@@ -449,9 +449,7 @@ const gIn = {
         }
         summaryString.substring(0, 2);
         workbook.Sheets.mySheet[`A${rowA}`] = {
-          v: `${result[i].section} ${
-            result[i].list.length
-          }个灯箱 (${summaryString})`,
+          v: `${result[i].section} ${result[i].list.length}个灯箱 (${summaryString})`,
           s: sectionStyle
         };
 
@@ -747,7 +745,9 @@ const gIn = {
         hpt: "16"
       }
     ];
-    let fileName = encodeURI(`${coName}-${planName}-${util.formatFIleTime(new Date().getTime())}.xlsx`);
+    let fileName = encodeURI(
+      `${coName}-${planName}-${util.formatFIleTime(new Date().getTime())}.xlsx`
+    );
     let file = XLSX.writeFile(workbook, fileName);
 
     ctx.body = fs.readFileSync(fileName);
@@ -763,7 +763,12 @@ const gIn = {
     console.log("isRented", isRented);
     let result = [];
     // console.log(plan);
-    let total = await areaAdvtModel.isRentedList(isRented);
+    let total = null;
+    if (isRented < 2) {
+      total = await areaAdvtModel.isRentedList(isRented);
+    } else {
+      total = await areaAdvtModel.AllList();
+    }
 
     let sectionList = util.sectionList;
     for (let i = 0; i < sectionList.length; i++) {
@@ -791,10 +796,16 @@ const gIn = {
       // }],
 
       // 该区域下 方案的广告位个数
-      let sectionAdvtSpaceList = await areaAdvtModel.listBySectionName(
-        item,
-        isRented
-      );
+      let sectionAdvtSpaceList = [];
+      if (isRented < 2) {
+        sectionAdvtSpaceList = await areaAdvtModel.listBySectionName(
+          item,
+          isRented
+        );
+      } else {
+        sectionAdvtSpaceList = await areaAdvtModel.AllListBySectionName(item);
+      }
+
       o.sectionSpaceTotal = sectionAdvtSpaceList.length;
 
       // 广告位id 列表
@@ -970,9 +981,7 @@ const gIn = {
         summaryString.substring(0, 2);
 
         workbook.Sheets.mySheet[`A${rowA}`] = {
-          v: `${result[i].section} ${
-            result[i].list.length
-          }个灯箱 (${summaryString})`,
+          v: `${result[i].section} ${result[i].list.length}个灯箱 (${summaryString})`,
           s: sectionStyle
         };
 
