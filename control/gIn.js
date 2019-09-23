@@ -1272,6 +1272,7 @@ const gIn = {
     let file = XLSX.writeFile(workbook, fileName);
 
     ctx.body = fs.readFileSync(fileName);
+    ctx.set("Access-Control-Expose-Headers", "Content-Disposition");
     ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
   }
 };
