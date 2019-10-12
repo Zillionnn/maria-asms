@@ -145,7 +145,7 @@ const gIn = {
     const reader = fs.createReadStream(file.path);
 
     const stream = fs.createWriteStream(
-      path.join(`/var/www/html/images`, file.name)
+      path.join(`/usr/local/nginx/html/images`, file.name)
     );
     reader.pipe(stream);
     console.log("uploading %s -> %s", file.name, stream.path);
