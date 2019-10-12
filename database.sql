@@ -13,6 +13,7 @@ create table t_residential_area(
     advertise_id text, --index
     update_time timestamp with time zone DEFAULT now(),
     is_realestate BOOLEAN,
+    is_exclusive BOOLEAN,
      PRIMARY KEY (id)
 );
 
@@ -55,7 +56,10 @@ create table t_area_advt_space(
 
     expire_time timestamp with time zone,
     -- 广告位位置
-    advt_space_poistion text,
+    advt_space_position text,
+    advt_space_position_des text,
+    section text,
+    is_exclusive BOOLEAN,
     -- 广告位地点
     advt_space_location text,
     update_time timestamp with time zone DEFAULT now(),
@@ -115,4 +119,4 @@ create table t_plan_section(
 
 CREATE INDEX idx_advt_space_position
     ON public.t_area_advt_space USING btree
-    (advt_space_poistion ASC NULLS LAST);
+    (advt_space_position ASC NULLS LAST);
