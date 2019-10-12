@@ -32,6 +32,9 @@ create table t_co(
     id uuid not null default uuid_generate_v4(), -- index
     name text,
     update_time timestamp with time zone,
+    contact text,
+    phone text,
+    address text,
     PRIMARY KEY (id)
 );
 
