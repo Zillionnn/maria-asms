@@ -11,7 +11,7 @@ create table t_residential_area(
     location text,
     avg_daily_traffic INTEGER,
     advertise_id text, --index
-    update_time timestamp with time zone,
+    update_time timestamp with time zone DEFAULT now(),
     is_realestate BOOLEAN,
      PRIMARY KEY (id)
 );
@@ -31,14 +31,11 @@ create table t_advertise(
 create table t_co(
     id uuid not null default uuid_generate_v4(), -- index
     name text,
-    update_time timestamp with time zone
+    update_time timestamp with time zone,
     PRIMARY KEY (id)
 );
 
 CREATE unique INDEX idx_co_uni on t_co(name);
-
-ALTER TABLE public.t_residential_area
-    ADD COLUMN update_time timestamp with time zone DEFAULT now()
 
 --  小区所有广告位 ？
 create table t_area_advt_space(
@@ -68,10 +65,6 @@ create table t_area_advt_space(
     PRIMARY KEY (id)
 );
 
-CREATE INDEX idx_advt_space_position
-    ON public.t_area_advt_space USING btree
-    (advt_space_position ASC NULLS LAST)
-    TABLESPACE pg_default;
 
 create table t_setting(
     id uuid not null default uuid_generate_v4(), -- index
@@ -85,7 +78,7 @@ create table t_setting(
 create table t_plan(
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
     plan_name text not null,
-    co_id text,
+    co_id text
 );
 
 -- 企业方案关联表？
@@ -115,3 +108,8 @@ create table t_plan_section(
     update_time timestamp with time zone DEFAULT now()
 );
 
+
+
+CREATE INDEX idx_advt_space_position
+    ON public.t_area_advt_space USING btree
+    (advt_space_poistion ASC NULLS LAST);
