@@ -98,6 +98,7 @@ create table t_co_advt_plan(
     advt_space_id text,
     
     section text,
+    area_id text,
     area_name text,
     area_location text,
     advt_space_position text,
