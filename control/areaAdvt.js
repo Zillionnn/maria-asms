@@ -140,7 +140,7 @@ const areaAdvt = {
         body.area_name = area.name
         body.area_location = area.location
         body.section = area.section
-        body.is_realestate = area.is_realestate
+        body.is_exclusive = area.is_exclusive
 
         // 初始未 出租
         body.isRented = 0
