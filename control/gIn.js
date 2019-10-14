@@ -245,11 +245,13 @@ const gIn = {
     console.log(body);
     let result = [];
     let plan = await coAdvtPlanModel.listByPlanId(body.plan_id);
-    console.log(plan);
+    console.log('导出的plan>>', plan);
     let coName = plan[0].co_name;
     let planName = plan[0].plan_name;
 
     let sectionList = await planSectionModel.listByPlanId(body.plan_id);
+    console.log('计划中的section list', sectionList)
+    
     for (let i = 0; i < sectionList.length; i++) {
       let item = sectionList[i];
       let o = {
@@ -365,11 +367,10 @@ const gIn = {
     }
     // 导入excel 的 result
 
-    console.log("=========================\n", result);
+    console.log("===========导入excel 的 result==============\n", result);
 
     let merges = [];
     for (let i = 0; i < result.length; i++) {
-      console.log("merge    i       ", i);
       if (i === 0) {
         merges.push({
           s: {
