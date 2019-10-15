@@ -36,6 +36,11 @@ const rdtlAreaModel = {
       return Promise.reject(err);
     }
   },
+
+  /**
+   * 按名称查询 小区
+   * @param {*} name 
+   */
   findOneByName(name) {
     try {
       console.log(name);
@@ -93,11 +98,20 @@ const rdtlAreaModel = {
              section, serial, name, "position", lnglat, category, live_size, parking_num, location, avg_daily_traffic,is_exclusive)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
         params
-      );
+      )
+      .then(r=>{
+        return this.findOneByName(body.name)
+      });
     } catch (err) {
       return Promise.reject(err);
     }
   },
+
+  /**
+   *  删除一个小区 
+   * 同时删除 广告位列表 有此小区的记录
+   * @param {*} params 
+   */
   delete(params) {
     try {
       return query("DELETE FROM t_residential_area where id=$1", params).then(

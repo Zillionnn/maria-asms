@@ -30,6 +30,7 @@ const util = {
     // j.cancel();
   },
 
+
   formatCategory(n) {
     switch (n) {
       case 0:
@@ -44,6 +45,32 @@ const util = {
         return "商务中心";
     }
   },
+
+  
+  categoryToNum(n) {
+    switch (n) {
+      case "住宅":
+        return 0;
+      case "商业中心":
+        return 1;
+      case "写字楼":
+        return 2;
+      case "酒店":
+        return 3;
+      case "商务中心":
+        return 4;
+    }
+  },
+
+  excluToBool(n) {
+    switch (n) {
+      case "是":
+        return true;
+      case "否":
+        return false;
+    }
+  },
+
   formatFIleTime(ts) {
     let t = new Date(ts);
     let y = t.getFullYear();

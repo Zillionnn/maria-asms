@@ -163,18 +163,18 @@ const gIn = {
    * @param {*} ctx
    */
 
-  // 序号	名称	     区域	  分类	地址	                  户数	车位数	日均流量	灯箱位置	                编号	    规格	  数量	楼盘
+  // 序号	名称	     区域	  分类	地址	                  户数	车位数	日均流量	灯箱位置	  I              J编号	  K规格	  L数量	M楼盘
   // 1	朗晴假日一期	东区	住宅	中山市东区岐关西路55号	900	  500	    800	      槎桥路西门地下停车场出入口	A0049	3m×1.5m	   2	  是
-  
+
   async uploadExcel(ctx) {
     try {
       const file = ctx.request.files.file;
       console.log(file.name);
 
       var workbook = XLSX.readFile(file.path);
-      console.group("%c", "WORKBOOD");
-      console.log(workbook);
-      console.groupEnd();
+      // console.group("%c", "WORKBOOD");
+      // console.log(workbook);
+      // console.groupEnd();
       let sheetNames = workbook.SheetNames;
       for (let name of sheetNames) {
         let r = workbook.Sheets[name];
@@ -188,9 +188,32 @@ const gIn = {
           if (column === "B" && row > 1) {
             let areaName = r[i].v
             // 查询小区
-            let areaR = await areaModel.findOneByName(areaName);
-            let area = areaR[0];
-            console.log(areaR)
+            let areaR = await areaModel.countByName(areaName);
+            // let area = areaR[0].count;
+            let area = null
+            if (areaR[0].count > 0) {
+              let result = await areaModel.findOneByName(areaName)
+              area = result[0]
+            } else {
+              // 没有小区 -> 新增小区
+              let newArea = {
+                section: r[`C${row}`].v,
+                serial: null,
+                name: r[`B${row}`].v,
+                position: r[`E${row}`].v,
+                lnglat: null,
+                category: util.categoryToNum(r[`D${row}`].v),
+                live_size: Number(r[`F${row}`].v),
+                parking_num: Number(r[`G${row}`].v),
+                location: null,
+                avg_daily_traffic: Number(r[`H${row}`].v),
+                // 楼盘 === 是 ? return false ?
+                is_exclusive: util.excluToBool(r[`M${row}`].v),
+              }
+              let insertedArea = await areaModel.insertOne(newArea)
+              area = insertedArea[0]
+            }
+            console.log(area)
             // console.log('light_size', r)
             let lightSize = r[`K${row}`].v;
             let xIdx = lightSize.indexOf("×");
@@ -257,7 +280,7 @@ const gIn = {
 
     let sectionList = await planSectionModel.listByPlanId(body.plan_id);
     console.log('计划中的section list', sectionList)
-    
+
     for (let i = 0; i < sectionList.length; i++) {
       let item = sectionList[i];
       let o = {
@@ -443,13 +466,13 @@ const gIn = {
               summaryString =
                 summaryString +
                 `、${item.total} ${util.formatCategory(item.category)} ${
-                  item.spaceTotal
+                item.spaceTotal
                 } 灯箱`;
             } else {
               summaryString =
                 summaryString +
                 `${item.total} ${util.formatCategory(item.category)} ${
-                  item.spaceTotal
+                item.spaceTotal
                 } 灯箱`;
             }
           }
@@ -461,7 +484,7 @@ const gIn = {
         };
 
         // 写入表头
-        for (let j = 0, keyCode = 65; j < tableHead.length; j++, keyCode++) {
+        for (let j = 0, keyCode = 65; j < tableHead.length; j++ , keyCode++) {
           let head = tableHead[j];
           let letter = String.fromCharCode(keyCode);
           workbook.Sheets.mySheet[`${letter}${rowA + 1}`] = {
@@ -974,13 +997,13 @@ const gIn = {
               summaryString =
                 summaryString +
                 `、${item.total} ${util.formatCategory(item.category)} ${
-                  item.spaceTotal
+                item.spaceTotal
                 } 灯箱`;
             } else {
               summaryString =
                 summaryString +
                 `${item.total} ${util.formatCategory(item.category)} ${
-                  item.spaceTotal
+                item.spaceTotal
                 } 灯箱`;
             }
           }
@@ -993,7 +1016,7 @@ const gIn = {
         };
 
         // 写入表头
-        for (let j = 0, keyCode = 65; j < tableHead.length; j++, keyCode++) {
+        for (let j = 0, keyCode = 65; j < tableHead.length; j++ , keyCode++) {
           let head = tableHead[j];
           let letter = String.fromCharCode(keyCode);
           workbook.Sheets.mySheet[`${letter}${rowA + 1}`] = {

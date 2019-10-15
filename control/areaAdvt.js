@@ -1,3 +1,6 @@
+/**
+ * 小区广告
+ */
 const areaAdvtModel = require('../model/areaAdvtModel')
 const coModel = require('../model/coModel')
 const advtModel = require('../model/advtModel')

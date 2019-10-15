@@ -170,6 +170,7 @@ const areaAdvtModel = {
   },
 
   insertOne(body) {
+    console.log('area advt model INSERT')
     try {
       let params = [];
       let fieldList = [
@@ -231,6 +232,7 @@ const areaAdvtModel = {
     }
   },
   update(body) {
+    console.log('area advt model UPDATE')
     try {
       let params = [];
       let fieldList = [
