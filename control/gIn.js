@@ -240,7 +240,8 @@ const gIn = {
               isRented: 0,
               is_realestate: is_realestate,
               // TODO
-              advt_position_image: ""
+              advt_position_image: "",
+              is_exclusive: util.excluToBool(r[`M${row}`].v)
             };
             // 插入一条前 先判断advt_position是否存在
             let areaAdvt = await areaAdvtModel.findOneByAdvtPosition(

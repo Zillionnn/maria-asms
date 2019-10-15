@@ -249,7 +249,9 @@ const areaAdvtModel = {
         "advt_space_position_des",
         "advt_position_image",
         "isrented",
-        "section"
+        "section",
+        "is_realestate",
+        "is_exclusive"
       ];
       fieldList.forEach(f => {
         params.push(body[f]);
@@ -270,7 +272,9 @@ const areaAdvtModel = {
             update_time=now(),
             advt_position_image=$12,
             isrented=$13,
-            section=$14
+            section=$14,
+            is_realestate=$15,
+            is_exclusive=$16
 
             WHERE id=$1;`,
         params
