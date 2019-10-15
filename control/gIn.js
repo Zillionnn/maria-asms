@@ -203,7 +203,7 @@ const gIn = {
                 position: r[`E${row}`].v,
                 lnglat: null,
                 category: util.categoryToNum(r[`D${row}`].v),
-                live_size: Number(r[`F${row}`].v),
+                live_size: r[`F${row}`].v,
                 parking_num: Number(r[`G${row}`].v),
                 location: r[`E${row}`].v,
                 avg_daily_traffic: Number(r[`H${row}`].v),
