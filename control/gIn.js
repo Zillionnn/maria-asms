@@ -162,6 +162,10 @@ const gIn = {
    * 导入广告位
    * @param {*} ctx
    */
+
+  // 序号	名称	     区域	  分类	地址	                  户数	车位数	日均流量	灯箱位置	                编号	    规格	  数量	楼盘
+  // 1	朗晴假日一期	东区	住宅	中山市东区岐关西路55号	900	  500	    800	      槎桥路西门地下停车场出入口	A0049	3m×1.5m	   2	  是
+  
   async uploadExcel(ctx) {
     try {
       const file = ctx.request.files.file;
@@ -182,9 +186,11 @@ const gIn = {
           let row = i.substring(1, i.length);
           // console.log(column, row)
           if (column === "B" && row > 1) {
-            let areaR = await areaModel.findOneByName(r[i].v);
+            let areaName = r[i].v
+            // 查询小区
+            let areaR = await areaModel.findOneByName(areaName);
             let area = areaR[0];
-            // console.log(area)
+            console.log(areaR)
             // console.log('light_size', r)
             let lightSize = r[`K${row}`].v;
             let xIdx = lightSize.indexOf("×");
