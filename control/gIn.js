@@ -207,7 +207,7 @@ const gIn = {
                 parking_num: Number(r[`G${row}`].v),
                 location: r[`E${row}`].v,
                 avg_daily_traffic: Number(r[`H${row}`].v),
-                // 楼盘 === 是 ? return false ?
+                // 楼盘 === 是 ? is_exclusive ===false ?
                 is_exclusive: util.excluToBool(r[`M${row}`].v),
               }
               let insertedArea = await areaModel.insertOne(newArea)

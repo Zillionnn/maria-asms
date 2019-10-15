@@ -65,9 +65,9 @@ const util = {
   excluToBool(n) {
     switch (n) {
       case "是":
-        return true;
-      case "否":
         return false;
+      case "否":
+        return true;
     }
   },
 
