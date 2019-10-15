@@ -184,7 +184,6 @@ const gIn = {
           // G 楼盘？ H advt_position_des I advt_position J light_size
           let column = i.substr(0, 1);
           let row = i.substring(1, i.length);
-          // console.log(column, row)
           if (column === "B" && row > 1) {
             let areaName = r[i].v
             // 查询小区
@@ -203,7 +202,7 @@ const gIn = {
                 position: r[`E${row}`].v,
                 lnglat: null,
                 category: util.categoryToNum(r[`D${row}`].v),
-                live_size: r[`F${row}`].v,
+                live_size: r[`F${row}`] === undefined ? 0 : r[`F${row}`].v,
                 parking_num: Number(r[`G${row}`].v),
                 location: r[`E${row}`].v,
                 avg_daily_traffic: Number(r[`H${row}`].v),
