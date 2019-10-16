@@ -21,18 +21,19 @@ create table t_advertise(
     id  uuid NOT NULL default uuid_generate_v4(), --index
     name text,
     co_id text, --index
+    co_name text,
     location text,
     lease_time INTEGER,
     lease_time_unit INTEGER,     -- 0-h, 1-day, 2-week , 3-mon, 4-year
     size text[],
-    update_time timestamp with time zone,
+    update_time timestamp with time zone DEFAULT now(),
      PRIMARY KEY (id)
 );
 
 create table t_co(
     id uuid not null default uuid_generate_v4(), -- index
     name text,
-    update_time timestamp with time zone,
+    update_time timestamp with time zone DEFAULT now(),
     contact text,
     phone text,
     address text,
