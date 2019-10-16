@@ -156,11 +156,11 @@ const rdtlAreaModel = {
           body.id,
           body.location,
           body.section,
-          body.is_realestate
+          body.is_exclusive
         ]);
         query(
           `UPDATE t_area_advt_space SET area_name=$1, area_location=$3, section=$4, is_exclusive=$5 WHERE area_id=$2`,
-          [body.name, body.id, body.location, body.section, body.is_realestate]
+          [body.name, body.id, body.location, body.section, body.is_exclusive]
         );
       });
     } catch (err) {
