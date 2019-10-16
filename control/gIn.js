@@ -237,7 +237,7 @@ const gIn = {
               light_size: [lightWidth, lightHeight],
               advt_space_position: areaSpacePos,
               advt_space_position_des: areaSpacePosDes,
-              isRented: 0,
+              isrented: 0,
               is_realestate: is_realestate,
               // TODO
               advt_position_image: "",
