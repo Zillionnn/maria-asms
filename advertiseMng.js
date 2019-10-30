@@ -88,6 +88,7 @@ router.get(`/api/v1/coplan/list/:coId`, coAdvtPlanCtrl.listByCo)
 router.post(`/api/v1/coplan/add`, coAdvtPlanCtrl.insertOne)
 router.delete(`/api/v1/coplan/:planId`, coAdvtPlanCtrl.deleteOnePlan)
 router.delete(`/api/v1/coplan/advtspace/:id`, coAdvtPlanCtrl.deleteOnePlanAdvtSpace)
+router.post(`/api/v1/coplan/advtspace/add`, coAdvtPlanCtrl.addPlanSapce)
 router.put(`/api/v1/co-plan/plan-name`, coAdvtPlanCtrl.updatePlanName)
 
 

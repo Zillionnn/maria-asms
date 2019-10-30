@@ -147,6 +147,40 @@ const coPlanModel = {
         }
 
     },
+
+    /**
+     *  批量插入
+     * @param {*} list 
+     */
+    batchInsertAdvt(list) {
+        try {
+            console.log('------------coAdvtPlanModel -------batchInsertAdvt-------->>>\n', list)
+            let params = ''
+
+            for (let i = 0; i < list.length; i++) {
+                const e = list[i]
+                params += `('${e.plan_name}','${e.co_id}','${e.co_name}','${e.advt_space_id}','${e.plan_id}',
+                    '${e.section}','${e.area_id}','${e.area_name}','${e.area_location}', '${e.advt_space_position}', 
+                    '${e.advt_space_position_des}', ${e.isrented}),`
+            }
+            const sql = params.substring(0, params.length - 1)
+            console.log('BATCH SQL >>>\n',params.length - 1, sql)
+
+
+            return query(`INSERT INTO t_co_advt_plan(plan_name, co_id, co_name, advt_space_id, plan_id, section,
+                area_id,
+            area_name,
+            area_location,
+            advt_space_position,
+            advt_space_position_des,
+            isrented) VALUES ${sql};`)
+        } catch (err) {
+            return Promise.reject(err)
+        }
+
+    },
+
+
     delete(params) {
         try {
             return query('DELETE FROM t_co_advt_plan where id=$1', params)

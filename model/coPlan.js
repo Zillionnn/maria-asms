@@ -42,6 +42,13 @@ const coPlanModel = {
         }
 
     },
+    findOneByPlanId(id){
+        try{
+            return query(`select * from t_plan where id=$1`,[id])
+        }catch(err){
+            return Promise.reject(err)
+        }
+    },
     /**
      * 查询一个企业所有plan
      * 

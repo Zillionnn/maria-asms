@@ -199,6 +199,28 @@ const coAdvtPlanCtrl = {
             messaage: 'success'
         }
     },
+
+    async addPlanSapce(ctx) {
+        const start = new Date().getTime()
+        const body = ctx.request.body
+        const plan = await planModel.findOneByPlanId(body.plan_id)
+        const co = await coModel.findOneById(body.co_id)
+        const list = body.space_list
+        const spaceList = list.map(space => {
+            const obj = Object.assign(space, {
+                advt_space_id: space.id,
+                plan_id: body.plan_id,
+                plan_name: plan[0].plan_name,
+                co_id: body.co_id,
+                co_name: co[0].name
+            })
+            return obj
+        })
+        await coPlanModel.batchInsertAdvt(spaceList)
+        const end = new Date().getTime()
+        console.log('耗时>>>', end - start)
+        util.nResponse(ctx, 0, 'success')
+    },
     /**
      * 更新一个
      * @param {*} ctx 
