@@ -220,6 +220,13 @@ const coAdvtPlanCtrl = {
                 util.handleError(ctx, err)
 
             })
+    },
+
+    async updatePlanName(ctx) {
+        const body = ctx.request.body
+        console.log(body)
+        const r = planModel.updatePlanName(body)
+        util.nResponse(ctx, 0, 'success', r)
     }
 
 }

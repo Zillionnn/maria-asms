@@ -91,6 +91,20 @@ const coPlanModel = {
         } catch (err) {
             return Promise.reject(err)
         }
+    },
+
+    updatePlanName(body) {
+        try {
+            const fieldList = ['id', 'plan_name']
+            const params = fieldList.map(f => {
+                return body[f]
+            })
+            console.log(params)
+            return query(`UPDATE t_plan
+            SET plan_name=$2 WHERE id=$1;`, params)
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 }
 

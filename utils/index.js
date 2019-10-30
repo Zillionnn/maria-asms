@@ -24,6 +24,14 @@ const util = {
     }
   },
 
+  nResponse(ctx, code = 0, message = '', data = null) {
+    ctx.response.body = {
+      code: code,
+      message: message,
+      data: data
+    }
+  },
+
   setSchedule(date, fn) {
     console.log("do schedule", date);
     let j = schedule.scheduleJob(date, fn);
@@ -46,7 +54,7 @@ const util = {
     }
   },
 
-  
+
   categoryToNum(n) {
     switch (n) {
       case "住宅":
