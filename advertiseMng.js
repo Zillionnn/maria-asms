@@ -91,6 +91,12 @@ router.delete(`/api/v1/coplan/advtspace/:id`, coAdvtPlanCtrl.deleteOnePlanAdvtSp
 router.post(`/api/v1/coplan/advtspace/add`, coAdvtPlanCtrl.addPlanSapce)
 router.put(`/api/v1/co-plan/plan-name`, coAdvtPlanCtrl.updatePlanName)
 
+router.get(`/api/v1/text`, textApi)
+
+async function textApi(ctx){
+  ctx.response.body='123'
+}
+
 
 
 gIn.checkSchedule()
