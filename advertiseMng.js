@@ -94,8 +94,11 @@ router.put(`/api/v1/co-plan/plan-name`, coAdvtPlanCtrl.updatePlanName)
 router.get(`/api/v1/text/time`, textApi)
 
 async function textApi(ctx){
-  const r = new Date().toLocaleString()
-  ctx.response.body=r
+	const r = new Date().toLocaleString();
+	console.log(ctx.request.body);
+	console.log(ctx.params);
+	console.log(ctx.query);
+	ctx.response.body=r
 }
 
 
