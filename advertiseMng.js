@@ -92,7 +92,20 @@ router.post(`/api/v1/coplan/advtspace/add`, coAdvtPlanCtrl.addPlanSapce)
 router.put(`/api/v1/co-plan/plan-name`, coAdvtPlanCtrl.updatePlanName)
 
 router.get(`/api/v1/text/time`, textApi)
+router.get(`/api/v1/chartdata`, chartData)
 
+async function chartData(ctx){
+	const data = [
+    ['Mon', 820,4],
+    ['Ton', 100,44],
+    ['Wed', 200,67],
+    ['Thu', 300,76],
+    ['Fri', 400,2],
+    ['Sat', 50,0],
+    ['Sun', 24,99],
+  ]
+	ctx.response.body=data
+}
 async function textApi(ctx){
 	const r = new Date().toLocaleString();
 	console.log(ctx.request.body);
