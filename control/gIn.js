@@ -177,6 +177,7 @@ const gIn = {
       // console.groupEnd();
       let sheetNames = workbook.SheetNames;
       for (let name of sheetNames) {
+        console.log('sheet name>>', name)
         let r = workbook.Sheets[name];
         // console.log('sheet>>>\n', r)
         for (let i in r) {
