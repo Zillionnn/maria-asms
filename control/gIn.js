@@ -163,8 +163,8 @@ const gIn = {
    * @param {*} ctx
    */
 
-  // 序号	名称	     区域	  分类	地址	                  户数	车位数	日均流量	灯箱位置	  I              J编号	  K规格	  L数量	M楼盘
-  // 1	朗晴假日一期	东区	住宅	中山市东区岐关西路55号	900	  500	    800	      槎桥路西门地下停车场出入口	A0049	3m×1.5m	   2	  是
+  // 序号	名称B	       分类C	地址D	                  户数E	车位数F	日均流量G	 灯箱位置H              I编号	  J规格	  K数量	 L楼盘
+  // 1	朗晴假日一期		住宅	中山市东区岐关西路55号	900	  500	    800	      槎桥路西门地下停车场出入口	A0049	3m×1.5m	   2	  是
 
   async uploadExcel(ctx) {
     try {
@@ -186,7 +186,7 @@ const gIn = {
           let column = i.substr(0, 1);
           let row = i.substring(1, i.length);
           if (column === "B" && row > 1) {
-            let areaName = r[i].v
+            let areaName = name
             // 查询小区
             let areaR = await areaModel.countByName(areaName);
             // let area = areaR[0].count;
