@@ -197,35 +197,35 @@ const gIn = {
             } else {
               // 没有小区 -> 新增小区
               let newArea = {
-                section: r[`C${row}`].v,
+                section: areaName,
                 serial: null,
                 name: r[`B${row}`].v,
-                position: r[`E${row}`].v,
+                position: r[`D${row}`].v,
                 lnglat: null,
                 category: util.categoryToNum(r[`D${row}`].v),
-                live_size: r[`F${row}`] === undefined ? 0 : r[`F${row}`].v,
-                parking_num: Number(r[`G${row}`].v),
-                location: r[`E${row}`].v,
-                avg_daily_traffic: Number(r[`H${row}`].v),
+                live_size: r[`E${row}`] === undefined ? 0 : r[`E${row}`].v,
+                parking_num: Number(r[`F${row}`].v),
+                location: r[`D${row}`].v,
+                avg_daily_traffic: Number(r[`G${row}`].v),
                 // 楼盘 === 是 ? is_exclusive ===false ?
-                is_exclusive: util.excluToBool(r[`M${row}`].v),
+                is_exclusive: util.excluToBool(r[`L${row}`].v),
               }
               let insertedArea = await areaModel.insertOne(newArea)
               area = insertedArea[0]
             }
             console.log(area)
             // console.log('light_size', r)
-            let lightSize = r[`K${row}`].v;
+            let lightSize = r[`J${row}`].v;
             let xIdx = lightSize.indexOf("×");
             let lightWidth = lightSize.substring(0, xIdx - 1);
             let lightHeight = lightSize.substring(
               xIdx + 1,
               lightSize.length - 1
             );
-            let areaSpacePos = r[`J${row}`].v;
-            let areaSpacePosDes = r[`I${row}`].v;
+            let areaSpacePos = r[`I${row}`].v;
+            let areaSpacePosDes = r[`H${row}`].v;
             let is_realestate = false;
-            if (r[`M${row}`].v === "是") {
+            if (r[`L${row}`].v === "是") {
               is_realestate = true;
             }
 
@@ -242,7 +242,7 @@ const gIn = {
               is_realestate: is_realestate,
               // TODO
               advt_position_image: "",
-              is_exclusive: util.excluToBool(r[`M${row}`].v)
+              is_exclusive: util.excluToBool(r[`L${row}`].v)
             };
             // 插入一条前 先判断advt_position是否存在
             let areaAdvt = await areaAdvtModel.findOneByAdvtPosition(
