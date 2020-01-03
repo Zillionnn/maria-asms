@@ -222,7 +222,7 @@ const gIn = {
               xIdx + 1,
               lightSize.length - 1
             );
-            let areaSpacePos = r[`I${row}`] === undefined || r[`I${row}`].v === '/' || r[`I${row}`].v === '' ? '' : r[`I${row}`].v;
+            let areaSpacePos = r[`I${row}`] === undefined || r[`I${row}`].v.length <= 1 ? '' : r[`I${row}`].v;
             let areaSpacePosDes = r[`H${row}`].v;
             let is_realestate = false;
             if (r[`L${row}`].v === "是") {
@@ -231,7 +231,7 @@ const gIn = {
 
             // 为空时 随机生成一个
             if (areaSpacePos === '') {
-              areaSpacePos = 'FFF' + parseInt(Math.random() * 10000)
+              areaSpacePos = util.randomCode(r[`B${row}`].v)
             }
 
             let body = {
