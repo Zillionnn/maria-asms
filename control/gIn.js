@@ -195,23 +195,27 @@ const gIn = {
               let result = await areaModel.findOneByName(areaName)
               area = result[0]
             } else {
-              // 没有小区 -> 新增小区
-              let newArea = {
-                section: name,
-                serial: null,
-                name: r[`B${row}`].v,
-                position: r[`D${row}`].v,
-                lnglat: null,
-                category: util.categoryToNum(r[`D${row}`].v),
-                live_size: r[`E${row}`] === undefined || r[`E${row}`].v === '/' ? 0 : r[`E${row}`].v,
-                parking_num: r[`F${row}`] === undefined || r[`F${row}`].v === '/' ? 0 : Number(r[`F${row}`].v),
-                location: r[`D${row}`].v,
-                avg_daily_traffic: r[`G${row}`] === undefined || r[`G${row}`].v === '/' ? 0 : Number(r[`G${row}`].v),
-                // 楼盘 === 是 ? is_exclusive ===false ?
-                is_exclusive: util.excluToBool(r[`L${row}`].v),
-              }
-              let insertedArea = await areaModel.insertOne(newArea)
-              area = insertedArea[0]
+              let areaName = r[`B${row}`].v
+              if (areaName && areaName !== '') {
+                // 没有小区 -> 新增小区
+                let newArea = {
+                  section: name,
+                  serial: null,
+                  name: r[`B${row}`].v,
+                  position: r[`D${row}`].v,
+                  lnglat: null,
+                  category: util.categoryToNum(r[`D${row}`].v),
+                  live_size: r[`E${row}`] === undefined || r[`E${row}`].v === '/' ? 0 : r[`E${row}`].v,
+                  parking_num: r[`F${row}`] === undefined || r[`F${row}`].v === '/' ? 0 : Number(r[`F${row}`].v),
+                  location: r[`D${row}`].v,
+                  avg_daily_traffic: r[`G${row}`] === undefined || r[`G${row}`].v === '/' ? 0 : Number(r[`G${row}`].v),
+                  // 楼盘 === 是 ? is_exclusive ===false ?
+                  is_exclusive: util.excluToBool(r[`L${row}`].v),
+                }
+                let insertedArea = await areaModel.insertOne(newArea)
+                area = insertedArea[0]
+              })
+
             }
             console.log(area)
             // console.log('light_size', r)
