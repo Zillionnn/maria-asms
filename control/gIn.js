@@ -195,7 +195,6 @@ const gIn = {
               let result = await areaModel.findOneByName(areaName)
               area = result[0]
             } else {
-              let areaName = r[`B${row}`].v
               if (areaName && areaName !== '') {
                 // 没有小区 -> 新增小区
                 let newArea = {
@@ -214,7 +213,7 @@ const gIn = {
                 }
                 let insertedArea = await areaModel.insertOne(newArea)
                 area = insertedArea[0]
-              })
+              }
 
             }
             console.log(area)
