@@ -121,7 +121,20 @@ const util = {
     "坦洲镇",
     "民众镇",
     "板芙镇"
-  ]
+  ],
+
+  randomLetter() {
+    const code = Math.round(Math.random() * 25) + 65;
+    const letter = String.fromCharCode(code)
+    return letter
+  },
+
+  randomCode(s) {
+    const buf = Buffer.from(s, 'utf8');
+    const base64 = buf.toString('base64');
+    const r = base64.substring(0,3);
+    return r.toUpperCase() + parseInt(Math.random() * 10000);
+  }
 };
 
 module.exports = util;

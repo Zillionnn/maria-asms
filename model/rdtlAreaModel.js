@@ -29,7 +29,9 @@ const rdtlAreaModel = {
   list(params) {
     try {
       return query(
-        `select * from t_residential_area offset $1 limit $2;`,
+        `select A.name,A.id,A.section,A.location, A.live_size,A.parking_num, A.avg_daily_traffic,A.update_time,A.is_exclusive,count(B.area_id) as total
+         from t_residential_area A join t_area_advt_space B on(B.area_id=A.id::text)
+        group by name, A.id, A.section,A.location, live_size,A.parking_num,A.avg_daily_traffic,A.update_time, A.is_exclusive offset $1 limit $2;`,
         params
       );
     } catch (err) {

@@ -163,9 +163,9 @@ const gIn = {
    * @param {*} ctx
    */
 
-  // 序号	名称	     区域	  分类	地址	                  户数	车位数	日均流量	灯箱位置	  I              J编号	  K规格	  L数量	M楼盘
-  // 1	朗晴假日一期	东区	住宅	中山市东区岐关西路55号	900	  500	    800	      槎桥路西门地下停车场出入口	A0049	3m×1.5m	   2	  是
-
+  // 序号	名称B	       分类C	地址D	                  户数E	车位数F	日均流量G	 灯箱位置H              I编号	  J规格	  K数量	 L楼盘
+  // 1	朗晴假日一期		住宅	中山市东区岐关西路55号	900	  500	    800	      槎桥路西门地下停车场出入口	A0049	3m×1.5m	   2	  是
+  // E F G I
   async uploadExcel(ctx) {
     try {
       const file = ctx.request.files.file;
@@ -177,6 +177,7 @@ const gIn = {
       // console.groupEnd();
       let sheetNames = workbook.SheetNames;
       for (let name of sheetNames) {
+        console.log('sheet name>>', name)
         let r = workbook.Sheets[name];
         // console.log('sheet>>>\n', r)
         for (let i in r) {
@@ -185,7 +186,7 @@ const gIn = {
           let column = i.substr(0, 1);
           let row = i.substring(1, i.length);
           if (column === "B" && row > 1) {
-            let areaName = r[i].v
+            let areaName = r[`B${row}`].v
             // 查询小区
             let areaR = await areaModel.countByName(areaName);
             // let area = areaR[0].count;
@@ -196,36 +197,41 @@ const gIn = {
             } else {
               // 没有小区 -> 新增小区
               let newArea = {
-                section: r[`C${row}`].v,
+                section: name,
                 serial: null,
                 name: r[`B${row}`].v,
-                position: r[`E${row}`].v,
+                position: r[`D${row}`].v,
                 lnglat: null,
                 category: util.categoryToNum(r[`D${row}`].v),
-                live_size: r[`F${row}`] === undefined ? 0 : r[`F${row}`].v,
-                parking_num: Number(r[`G${row}`].v),
-                location: r[`E${row}`].v,
-                avg_daily_traffic: Number(r[`H${row}`].v),
+                live_size: r[`E${row}`] === undefined || r[`E${row}`].v === '/' ? 0 : r[`E${row}`].v,
+                parking_num: r[`F${row}`] === undefined || r[`F${row}`].v === '/' ? 0 : Number(r[`F${row}`].v),
+                location: r[`D${row}`].v,
+                avg_daily_traffic: r[`G${row}`] === undefined || r[`G${row}`].v === '/' ? 0 : Number(r[`G${row}`].v),
                 // 楼盘 === 是 ? is_exclusive ===false ?
-                is_exclusive: util.excluToBool(r[`M${row}`].v),
+                is_exclusive: util.excluToBool(r[`L${row}`].v),
               }
               let insertedArea = await areaModel.insertOne(newArea)
               area = insertedArea[0]
             }
             console.log(area)
             // console.log('light_size', r)
-            let lightSize = r[`K${row}`].v;
+            let lightSize = r[`J${row}`].v;
             let xIdx = lightSize.indexOf("×");
             let lightWidth = lightSize.substring(0, xIdx - 1);
             let lightHeight = lightSize.substring(
               xIdx + 1,
               lightSize.length - 1
             );
-            let areaSpacePos = r[`J${row}`].v;
-            let areaSpacePosDes = r[`I${row}`].v;
+            let areaSpacePos = r[`I${row}`] === undefined || r[`I${row}`].v.length <= 1 ? '' : r[`I${row}`].v;
+            let areaSpacePosDes = r[`H${row}`].v;
             let is_realestate = false;
-            if (r[`M${row}`].v === "是") {
+            if (r[`L${row}`].v === "是") {
               is_realestate = true;
+            }
+
+            // 为空时 随机生成一个
+            if (areaSpacePos === '') {
+              areaSpacePos = util.randomCode(r[`B${row}`].v)
             }
 
             let body = {
@@ -241,8 +247,9 @@ const gIn = {
               is_realestate: is_realestate,
               // TODO
               advt_position_image: "",
-              is_exclusive: util.excluToBool(r[`M${row}`].v)
+              is_exclusive: util.excluToBool(r[`L${row}`].v)
             };
+
             // 插入一条前 先判断advt_position是否存在
             let areaAdvt = await areaAdvtModel.findOneByAdvtPosition(
               areaSpacePos
