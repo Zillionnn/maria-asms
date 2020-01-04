@@ -216,53 +216,57 @@ const gIn = {
               }
 
             }
-            console.log(area)
-            // console.log('light_size', r)
-            let lightSize = r[`J${row}`].v;
-            let xIdx = lightSize.indexOf("×");
-            let lightWidth = lightSize.substring(0, xIdx - 1);
-            let lightHeight = lightSize.substring(
-              xIdx + 1,
-              lightSize.length - 1
-            );
-            let areaSpacePos = r[`I${row}`] === undefined || r[`I${row}`].v.length <= 1 ? '' : r[`I${row}`].v;
-            let areaSpacePosDes = r[`H${row}`].v;
-            let is_realestate = false;
-            if (r[`L${row}`].v === "是") {
-              is_realestate = true;
+
+            if (area) {
+              console.log(area)
+              // console.log('light_size', r)
+              let lightSize = r[`J${row}`].v;
+              let xIdx = lightSize.indexOf("×");
+              let lightWidth = lightSize.substring(0, xIdx - 1);
+              let lightHeight = lightSize.substring(
+                xIdx + 1,
+                lightSize.length - 1
+              );
+              let areaSpacePos = r[`I${row}`] === undefined || r[`I${row}`].v.length <= 1 ? '' : r[`I${row}`].v;
+              let areaSpacePosDes = r[`H${row}`].v;
+              let is_realestate = false;
+              if (r[`L${row}`].v === "是") {
+                is_realestate = true;
+              }
+
+              // 为空时 随机生成一个
+              if (areaSpacePos === '') {
+                areaSpacePos = util.randomCode(r[`B${row}`].v)
+              }
+
+              let body = {
+                area_id: area.id,
+                area_name: area.name,
+                section: area.section,
+                area_location: area.location,
+
+                light_size: [lightWidth, lightHeight],
+                advt_space_position: areaSpacePos,
+                advt_space_position_des: areaSpacePosDes,
+                isrented: 0,
+                is_realestate: is_realestate,
+                // TODO
+                advt_position_image: "",
+                is_exclusive: util.excluToBool(r[`L${row}`].v)
+              };
+
+              // 插入一条前 先判断advt_position是否存在
+              let areaAdvt = await areaAdvtModel.findOneByAdvtPosition(
+                areaSpacePos
+              );
+              if (areaAdvt.length > 0) {
+                body.id = areaAdvt[0].id;
+                await areaAdvtModel.update(body);
+              } else {
+                await areaAdvtModel.insertOne(body);
+              }
             }
 
-            // 为空时 随机生成一个
-            if (areaSpacePos === '') {
-              areaSpacePos = util.randomCode(r[`B${row}`].v)
-            }
-
-            let body = {
-              area_id: area.id,
-              area_name: area.name,
-              section: area.section,
-              area_location: area.location,
-
-              light_size: [lightWidth, lightHeight],
-              advt_space_position: areaSpacePos,
-              advt_space_position_des: areaSpacePosDes,
-              isrented: 0,
-              is_realestate: is_realestate,
-              // TODO
-              advt_position_image: "",
-              is_exclusive: util.excluToBool(r[`L${row}`].v)
-            };
-
-            // 插入一条前 先判断advt_position是否存在
-            let areaAdvt = await areaAdvtModel.findOneByAdvtPosition(
-              areaSpacePos
-            );
-            if (areaAdvt.length > 0) {
-              body.id = areaAdvt[0].id;
-              await areaAdvtModel.update(body);
-            } else {
-              await areaAdvtModel.insertOne(body);
-            }
           }
         }
       }
