@@ -159,6 +159,35 @@ const gIn = {
   },
 
   /**
+   * 上传多个image
+   * @param {*} ctx 
+   */
+  async uploadImgList(ctx) {
+    const files = ctx.request.files;
+    let path = []
+    console.log(files)
+    for (let file of files) {
+      // console.log( ctx.request.files)
+
+      const reader = fs.createReadStream(file[0].path);
+
+      const stream = fs.createWriteStream(
+        path.join(`/usr/local/nginx/html/images`, file.name)
+      );
+      reader.pipe(stream);
+      console.log("uploading %s -> %s", file.name, stream.path);
+      path.push({ path: `http://106.12.40.54/images/${file.name}` })
+    }
+
+
+    ctx.response.body = {
+      code: 0,
+      messaage: "success",
+      data: path
+    };
+  },
+
+  /**
    * 导入广告位
    * @param {*} ctx
    */
