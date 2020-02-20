@@ -169,7 +169,7 @@ const gIn = {
     for (let file of files) {
       // console.log( ctx.request.files)
 
-      const reader = fs.createReadStream(file[0].path);
+      const reader = fs.createReadStream(file.path);
 
       const stream = fs.createWriteStream(
         path.join(`/usr/local/nginx/html/images`, file.name)
