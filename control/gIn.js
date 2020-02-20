@@ -165,7 +165,7 @@ const gIn = {
   async uploadImgList(ctx) {
     const files = ctx.request.files.file;
     let path = []
-    console.log(files)
+//    console.log(files)
     for (let file of files) {
       // console.log( ctx.request.files)
 
@@ -175,6 +175,7 @@ const gIn = {
         path.join(`/data/www/home/images`, file.name)
       );
       reader.pipe(stream);
+	console.log(stream);
       console.log("uploading %s -> %s", file.name, stream.path);
       path.push({ path: `http://106.12.40.54/images/${file.name}` })
     }
