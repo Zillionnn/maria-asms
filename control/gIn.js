@@ -1,7 +1,7 @@
 const util = require("../utils/index");
 const path = require("path");
 const send = require("koa-send");
-const { execFile } = require('child_process');
+const { exec, spawn } = require('child_process');
 
 
 const fs = require("fs");
