@@ -1,8 +1,9 @@
 const util = require("../utils/index");
 const path = require("path");
 const send = require("koa-send");
-const { exec, spawn } = require('child_process');
 
+const utils = require('util');
+const exec = utils.promisify(require('child_process').exec);
 
 const fs = require("fs");
 const XLSX = require("xlsx-style");
@@ -172,7 +173,20 @@ const gIn = {
     fileNameList = []
     const files = ctx.request.files.file;
     // let file = files[0]
-    for (let file of files) {
+    if (Array.isArray(files)) {
+      for (let file of files) {
+        const reader = fs.createReadStream(file.path);
+        const stream = fs.createWriteStream(
+          path.join(`/data/www/home/images`, file.name)
+        );
+        reader.pipe(stream);
+        console.log("uploading %s -> %s", file.name, stream.path);
+        compressImgList.push(stream.path)
+        fileNameList.push(`/data/www/home/images/_2000${file.name}`)
+      }
+
+    } else {
+      let file = files
       const reader = fs.createReadStream(file.path);
       const stream = fs.createWriteStream(
         path.join(`/data/www/home/images`, file.name)
@@ -195,16 +209,19 @@ const gIn = {
   async downloadCompressedImg(ctx) {
     await compressImg()
     console.log('===== compress done ====')
+
+
     let outfiles = fileNameList.join(' ')
     let zipName = `${new Date().getTime()}.zip`
-    console.log(outfiles)
     console.log(zipName)
-    await exec(`zip -r -3 -q -o ${zipName} ${outfiles}`)
+    const { stdout, stderr } = await exec(`zip -r -3 -q -o ${zipName} ${outfiles}`)
+    console.log('stdout:', stdout);
+    console.error('stderr:', stderr);
 
     const path = `/work/maria-asms/${zipName}`;
     let fileName = encodeURI(`${zipName}`);
 
-    ctx.body = fs.readFileSync(fileName);
+    ctx.body = fs.readFileSync(path);
     ctx.set("Access-Control-Expose-Headers", "Content-Disposition");
     ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
 
@@ -1399,8 +1416,8 @@ function compressImg() {
     console.log('compressImgList>>', p)
     exec(`"/work/maria-asms/control/main" ${p}`, (err, stdout, stderr) => {
       // ...
-      console.log(stdout)
-      console.log(stderr)
+      // console.log(stdout)
+      // console.log(stderr)
     });
     resolve()
   })
