@@ -191,7 +191,7 @@ const gIn = {
   async downloadCompressedImg(ctx){
     let p  = compressImgList.join(' ')
     console.log(p)
-    exec(`"./main" ${p}`, (err, stdout, stderr) => {
+    exec(`"/work/maria-asms/control/main" ${p}`, (err, stdout, stderr) => {
       // ...
       console.log(stdout)
       console.log(stderr)
