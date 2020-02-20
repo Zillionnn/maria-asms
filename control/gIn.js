@@ -1,6 +1,8 @@
 const util = require("../utils/index");
 const path = require("path");
 const send = require("koa-send");
+const { execFile } = require('child_process');
+
 
 const fs = require("fs");
 const XLSX = require("xlsx-style");
@@ -124,6 +126,8 @@ const contentStyle = {
   }
 };
 
+let compressImgList = [];
+
 const gIn = {
   async checkSchedule() {
     console.log("CHECK SCHEDULE");
@@ -173,8 +177,8 @@ const gIn = {
       );
       reader.pipe(stream);
       console.log("uploading %s -> %s", file.name, stream.path);
+      compressImgList.push(stream.path)
     }
-
     ctx.response.body = {
       code: 0,
       messaage: "success",
@@ -182,45 +186,21 @@ const gIn = {
       //   path: `http://106.12.40.54/images/${file.name}`
       // }
     };
-    // let files = ctx.request.files.file;
-    // let path = []
-    // //    console.log(files)
-    // if (Array.isArray(files)) {
-    //   for (let file of files) {
-    //     // console.log( ctx.request.files)
-
-    //     const reader = fs.createReadStream(file.path);
-
-    //     const stream = fs.createWriteStream(
-    //       path.join(`/data/www/home/images`, file.name)
-    //     );
-    //     reader.pipe(stream);
-    //     console.log(stream);
-    //     console.log("uploading %s -> %s", file.name, stream.path);
-    //     path.push({ path: `http://106.12.40.54/images/${file.name}` })
-    //   }
-    // } else {
-    //   // console.log( ctx.request.files)
-
-    //   const reader = fs.createReadStream(files.path);
-
-    //   const stream = fs.createWriteStream(
-    //     path.join(`/data/www/home/images`, files.name)
-    //   );
-    //   reader.pipe(stream);
-    //   console.log(stream);
-    //   console.log("uploading %s -> %s", files.name, stream.path);
-    //   // path.push({ path: `http://106.12.40.54/images/${files.name}` })
-    // }
-
-
-
-    // ctx.response.body = {
-    //   code: 0,
-    //   messaage: "success",
-    //   // data: path
-    // };
   },
+
+  async downloadCompressedImg(ctx){
+    console.log(compressImgList)
+    const child = execFile(`./main.out ${compressImgList}`, ['--version'], (error, stdout, stderr) => {
+      if (error) {
+        throw error;
+      }
+      console.log(stdout);
+    });
+    ctx.response.body = {
+      code: 0,
+      messaage: "success"
+    };
+  }
 
   /**
    * 导入广告位

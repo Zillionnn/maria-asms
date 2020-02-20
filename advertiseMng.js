@@ -38,6 +38,7 @@ async function useAuth(ctx, next) {
 
 router.post(`/api/v1/uploadImg`, gIn.upload)
 router.post(`/api/v1/uploadImages`, gIn.uploadImgList)
+router.get(`/api/v1/download-compress-image`, gIn.downloadCompressedImg)
 router.post(`/api/v1/uploadXls`, gIn.uploadExcel)
 router.get(`/api/v1/exportXlsx/:plan_id`, gIn.exportExcel)
 router.post(`/api/v1/exportIsNoRentedSpaceExcel/:isrented`, gIn.exportRentedSpaceExcel)
