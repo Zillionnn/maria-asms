@@ -163,7 +163,7 @@ const gIn = {
    * @param {*} ctx 
    */
   async uploadImgList(ctx) {
-    const files = ctx.request.files;
+    const files = ctx.request.files.file;
     let path = []
     console.log(files)
     for (let file of files) {
