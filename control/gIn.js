@@ -165,20 +165,35 @@ const gIn = {
   async uploadImgList(ctx) {
     const files = ctx.request.files.file;
     let path = []
-//    console.log(files)
-    for (let file of files) {
+    //    console.log(files)
+    if (Array.isArray(files)) {
+      for (let file of files) {
+        // console.log( ctx.request.files)
+
+        const reader = fs.createReadStream(file.path);
+
+        const stream = fs.createWriteStream(
+          path.join(`/data/www/home/images`, file.name)
+        );
+        reader.pipe(stream);
+        console.log(stream);
+        console.log("uploading %s -> %s", file.name, stream.path);
+        path.push({ path: `http://106.12.40.54/images/${file.name}` })
+      }
+    } else {
       // console.log( ctx.request.files)
 
-      const reader = fs.createReadStream(file.path);
+      const reader = fs.createReadStream(files.path);
 
       const stream = fs.createWriteStream(
-        path.join(`/data/www/home/images`, file.name)
+        path.join(`/data/www/home/images`, files.name)
       );
       reader.pipe(stream);
-	console.log(stream);
-      console.log("uploading %s -> %s", file.name, stream.path);
-      path.push({ path: `http://106.12.40.54/images/${file.name}` })
+      console.log(stream);
+      console.log("uploading %s -> %s", files.name, stream.path);
+      path.push({ path: `http://106.12.40.54/images/${files.name}` })
     }
+
 
 
     ctx.response.body = {
