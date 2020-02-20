@@ -200,7 +200,7 @@ const gIn = {
       code: 0,
       messaage: "success"
     };
-  }
+  },
 
   /**
    * 导入广告位
