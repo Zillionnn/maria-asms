@@ -165,22 +165,22 @@ const gIn = {
   async uploadImgList(ctx) {
 
     const files = ctx.request.files.file;
-    let file = files[0]
-    // for (let file of files) {
+    // let file = files[0]
+    for (let file of files) {
       const reader = fs.createReadStream(file.path);
       const stream = fs.createWriteStream(
         path.join(`/data/www/home/images`, file.name)
       );
       reader.pipe(stream);
       console.log("uploading %s -> %s", file.name, stream.path);
-    // }
+    }
 
     ctx.response.body = {
       code: 0,
       messaage: "success",
-      data: {
-        path: `http://106.12.40.54/images/${file.name}`
-      }
+      // data: {
+      //   path: `http://106.12.40.54/images/${file.name}`
+      // }
     };
     // let files = ctx.request.files.file;
     // let path = []
