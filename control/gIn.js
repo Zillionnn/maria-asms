@@ -163,7 +163,7 @@ const gIn = {
    * @param {*} ctx 
    */
   async uploadImgList(ctx) {
-    const files = ctx.request.files.file;
+    let files = ctx.request.files.file;
     let path = []
     //    console.log(files)
     if (Array.isArray(files)) {
@@ -191,7 +191,7 @@ const gIn = {
       reader.pipe(stream);
       console.log(stream);
       console.log("uploading %s -> %s", files.name, stream.path);
-      path.push({ path: `http://106.12.40.54/images/${files.name}` })
+      // path.push({ path: `http://106.12.40.54/images/${files.name}` })
     }
 
 
@@ -199,7 +199,7 @@ const gIn = {
     ctx.response.body = {
       code: 0,
       messaage: "success",
-      data: path
+      // data: path
     };
   },
 
