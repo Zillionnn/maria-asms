@@ -163,16 +163,18 @@ const gIn = {
    * @param {*} ctx 
    */
   async uploadImgList(ctx) {
-    
-    const file = ctx.request.files.file;
 
-    const reader = fs.createReadStream(file.path);
+    const files = ctx.request.files.file;
+    let file = files[0]
+    // for (let file of files) {
+      const reader = fs.createReadStream(file.path);
+      const stream = fs.createWriteStream(
+        path.join(`/data/www/home/images`, file.name)
+      );
+      reader.pipe(stream);
+      console.log("uploading %s -> %s", file.name, stream.path);
+    // }
 
-    const stream = fs.createWriteStream(
-      path.join(`/data/www/home/images`, file.name)
-    );
-    reader.pipe(stream);
-    console.log("uploading %s -> %s", file.name, stream.path);
     ctx.response.body = {
       code: 0,
       messaage: "success",
