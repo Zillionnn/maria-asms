@@ -190,7 +190,8 @@ const gIn = {
 
   async downloadCompressedImg(ctx){
     console.log(compressImgList)
-    const child = execFile(`./main ${compressImgList}`, ['--version'], (error, stdout, stderr) => {
+    let p  = compressImgList.join(' ')
+    const child = execFile(`./main ${p}`, ['--version'], (error, stdout, stderr) => {
       if (error) {
         throw error;
       }
