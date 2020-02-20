@@ -127,6 +127,7 @@ const contentStyle = {
 };
 
 let compressImgList = [];
+let fileNameList = []
 
 const gIn = {
   async checkSchedule() {
@@ -167,7 +168,8 @@ const gIn = {
    * @param {*} ctx 
    */
   async uploadImgList(ctx) {
-
+    compressImgList = []
+    fileNameList = []
     const files = ctx.request.files.file;
     // let file = files[0]
     for (let file of files) {
@@ -178,7 +180,9 @@ const gIn = {
       reader.pipe(stream);
       console.log("uploading %s -> %s", file.name, stream.path);
       compressImgList.push(stream.path)
+      fileNameList.push(`/data/www/home/images/_2000${file.name}`)
     }
+
     ctx.response.body = {
       code: 0,
       messaage: "success",
@@ -188,18 +192,22 @@ const gIn = {
     };
   },
 
-  async downloadCompressedImg(ctx){
-    let p  = compressImgList.join(' ')
-    console.log(p)
-    exec(`"/work/maria-asms/control/main" ${p}`, (err, stdout, stderr) => {
-      // ...
-      console.log(stdout)
-      console.log(stderr)
-    });
-    ctx.response.body = {
-      code: 0,
-      messaage: "success"
-    };
+  async downloadCompressedImg(ctx) {
+    await compressImg()
+    console.log('===== compress done ====')
+    let outfiles = fileNameList.join(' ')
+    let zipName = `${new Date().getTime()}.zip`
+    console.log(outfiles)
+    console.log(zipName)
+    await exec(`zip -r -3 -q -o ${zipName} ${outfiles}`)
+
+    const path = `/work/maria-asms/${zipName}`;
+    let fileName = encodeURI(`${zipName}`);
+
+    ctx.body = fs.readFileSync(fileName);
+    ctx.set("Access-Control-Expose-Headers", "Content-Disposition");
+    ctx.response.set("Content-Disposition", "attachment;filename=" + fileName);
+
   },
 
   /**
@@ -1382,6 +1390,20 @@ function getMergeStart(i, list) {
   } else {
     return getMergeStart(i - 1, list) + list[i - 1].sectionSpaceTotal + 2;
   }
+}
+
+function compressImg() {
+  return new Promise((resolve, reject) => {
+    let p = compressImgList.join(' ')
+
+    console.log('compressImgList>>', p)
+    exec(`"/work/maria-asms/control/main" ${p}`, (err, stdout, stderr) => {
+      // ...
+      console.log(stdout)
+      console.log(stderr)
+    });
+    resolve()
+  })
 }
 
 module.exports = gIn;
