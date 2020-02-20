@@ -189,11 +189,10 @@ const gIn = {
   },
 
   async downloadCompressedImg(ctx){
-    console.log(compressImgList)
     let p  = compressImgList.join(' ')
+    console.log(p)
     exec(`"./main" ${p}`, (err, stdout, stderr) => {
       // ...
-      console.err(err)
       console.log(stdout)
       console.log(stderr)
     });
